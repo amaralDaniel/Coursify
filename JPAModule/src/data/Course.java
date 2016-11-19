@@ -8,16 +8,12 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int courseId;
-
     private String name;
     private String description;
-
     @ManyToOne(fetch= FetchType.LAZY)
     private Professor professor;
-
     @ManyToMany(mappedBy="coursesList")
     private List<Student> studentsList;
-
     @OneToMany(mappedBy="course")
     private List<Material> materialList;
 

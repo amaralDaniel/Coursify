@@ -4,22 +4,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- * Created by tomasfrancisco on 09/11/2016.
- */
 @Entity
 public abstract class User implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
-
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Double number;
-
     @OneToOne(cascade = CascadeType.ALL)
     private Token token;
-
     private String name;
     private Date birthdate;
     private String institutionalEmail;

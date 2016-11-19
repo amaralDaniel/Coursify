@@ -7,7 +7,6 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int materialId;
-
     private String filename;
     @Enumerated(EnumType.STRING)
     private MaterialType type; //pdf, zip, etc

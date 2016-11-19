@@ -7,18 +7,12 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * Created by danielamaral on 14/11/2016.
- */
 @Entity
 public class Token implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idToken;
-
     private String code;
 
     public Token() {

@@ -6,12 +6,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Created by tomasfrancisco on 13/11/2016.
- */
 @Entity
 public class Professor extends User implements Serializable {
-
     private String category;
     private String office;
     private String internalTelephone;

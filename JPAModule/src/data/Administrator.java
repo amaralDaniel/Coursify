@@ -4,13 +4,8 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- * Created by tomasfrancisco on 13/11/2016.
- */
-
 @Entity
 public class Administrator extends User implements Serializable {
-
     public Administrator(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, String passwordHash) {
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);

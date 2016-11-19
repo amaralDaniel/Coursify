@@ -6,14 +6,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Created by tomasfrancisco on 13/11/2016.
- */
 @Entity
 public class Student extends User implements Serializable {
-
     private Integer yearRegistry;
-
     @ManyToMany(mappedBy="studentsList")
     private List<Course> coursesList;
 
@@ -29,9 +24,7 @@ public class Student extends User implements Serializable {
 
     }
 
-    public Student() {
-
-    }
+    public Student() { }
 
     public Integer getYearRegistry() {
         return yearRegistry;
