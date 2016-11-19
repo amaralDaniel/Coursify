@@ -8,4 +8,5 @@ public interface AuthEJBRemote {
     boolean verifyToken(String providedToken);
     boolean loginWithToken(String providedToken);
     String dummyMethod();
+    boolean signUp(String name, String email, String password);
 }

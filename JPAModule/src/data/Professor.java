@@ -18,4 +18,14 @@ public class Professor extends User implements Serializable {
 
     @OneToMany
     private List<Course> courseList;
+
+    public Professor(String name, String email, String passwordHash) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setPasswordHash(passwordHash);
+    }
+
+    public Professor() {
+
+    }
 }

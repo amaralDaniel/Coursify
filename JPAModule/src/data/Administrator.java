@@ -10,4 +10,13 @@ import java.io.Serializable;
 @Entity
 public class Administrator extends User implements Serializable {
 
+    public Administrator(String name, String email, String passwordHash) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setPasswordHash(passwordHash);
+    }
+
+    public Administrator() {
+
+    }
 }
