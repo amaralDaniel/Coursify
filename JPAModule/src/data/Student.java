@@ -12,7 +12,7 @@ public class Student extends User implements Serializable {
     @ManyToMany(mappedBy="studentsList")
     private List<Course> coursesList;
 
-    public Student(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, String passwordHash, Integer yearRegistry) {
+    public Student(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, byte[] passwordHash, Integer yearRegistry) {
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
         this.setEmail(email);
@@ -21,7 +21,12 @@ public class Student extends User implements Serializable {
         this.setPasswordHash(passwordHash);
         this.setBirthdate(birthdate);
         this.setYearRegistry(yearRegistry);
+    }
 
+    public Student(String name, String email, byte[] passwordHash){
+        this.setName(name);
+        this.setEmail(email);
+        this.setPasswordHash(passwordHash);
     }
 
     public Student() { }

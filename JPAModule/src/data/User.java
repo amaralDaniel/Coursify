@@ -15,13 +15,16 @@ public abstract class User implements Serializable {
     private Token token;
     private String name;
     private Date birthdate;
+    @Column(unique = true, nullable = false)
     private String institutionalEmail;
     private String email;
     private String address;
 
     private String telephone;
 
-    private String passwordHash;
+    //Large object
+    @Lob
+    private byte[] passwordHash;
 
     public Integer getUserId() {
         return userId;
@@ -87,14 +90,6 @@ public abstract class User implements Serializable {
         this.telephone = telephone;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
     public Token getToken() {
         return token;
     }
@@ -102,4 +97,9 @@ public abstract class User implements Serializable {
     public void setToken(Token token) {
         this.token = token;
     }
+
+
+    public byte[] getPasswordHash() { return passwordHash; }
+
+    public void setPasswordHash(byte[] passwordHash) { this.passwordHash = passwordHash; }
 }
