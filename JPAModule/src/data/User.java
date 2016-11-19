@@ -20,14 +20,12 @@ public abstract class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Token token;
 
-    @Enumerated(EnumType.STRING)
-    private Flag flag;
-
     private String name;
     private Date birthdate;
     private String institutionalEmail;
     private String email;
     private String address;
+
     private String telephone;
 
     private String passwordHash;
@@ -46,14 +44,6 @@ public abstract class User implements Serializable {
 
     public void setNumber(Double number) {
         this.number = number;
-    }
-
-    public Flag getFlag() {
-        return flag;
-    }
-
-    public void setFlag(Flag flag) {
-        this.flag = flag;
     }
 
     public String getName() {
