@@ -35,6 +35,8 @@ public class AuthEJB implements AuthEJBRemote {
         this.entityTransaction = entityManager.getTransaction();*/
     }
 
+
+
     //TODO check if it's done properly
     public String loginWithCredentials(String email, String passwordHash){
 
@@ -65,11 +67,14 @@ public class AuthEJB implements AuthEJBRemote {
         }
     }
 
-    //TODO check if it works
-    public boolean verifyToken(String token){
+    /*
+    Used to check if given token is in the Token table, thus valid.
+     */
+    //TODO check if verifyToken works
+    public boolean verifyToken(String providedToken){
         myLogger.info(">>>> Verifying Token <<<<");
         Query newQuery = entityManager.createQuery("FROM Token token where token.code=?1");
-        newQuery.setParameter(1,token);
+        newQuery.setParameter(1,providedToken);
 
         try{
             Token tempResult = (Token) newQuery.getSingleResult();
@@ -80,8 +85,19 @@ public class AuthEJB implements AuthEJBRemote {
             return false;
         }
     }
-    //TODO loginWithToken
+    //TODO check if loginWithToken works
+    public boolean loginWithToken(String providedToken){
+        myLogger.info(">>>> Login with Token <<<<");
+        HashMap result = new HashMap<>();
 
+        if(verifyToken(providedToken)){
+            myLogger.info("AuthEJB: Able to login with the provided token");
+            return true;
+        }else{
+            myLogger.info("AuthEJB: Unable to login with the provided token");
+            return false;
+        }
+    }
     //TODO showAccountInfo
     //TODO editAccountInfo
     //TODO removeAccount
