@@ -63,8 +63,29 @@ public class AuthEJB implements AuthEJBRemote {
             myLogger.error("Error while doing login. Credentials may be wrong or don't exist");
             return "ERROR";
         }
-
     }
+
+    //TODO check if it works
+    public boolean verifyToken(String token){
+        myLogger.info(">>>> Verifying Token <<<<");
+        Query newQuery = entityManager.createQuery("FROM Token token where token.code=?1");
+        newQuery.setParameter(1,token);
+
+        try{
+            Token tempResult = (Token) newQuery.getSingleResult();
+            myLogger.info("AuthEJB: the provided token is valid");
+            return true;
+        }catch (Exception e){
+            myLogger.error("AuthEJB: the provided token is not valid");
+            return false;
+        }
+    }
+    //TODO loginWithToken
+
+    //TODO showAccountInfo
+    //TODO editAccountInfo
+    //TODO removeAccount
+
 
     public String dummyMethod() {
         return "Hello World!";
