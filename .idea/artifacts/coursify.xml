@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="coursify">
+    <output-path>$PROJECT_DIR$/out/artifacts/coursify</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Coursify" />
+          <element id="module-output" name="EJBModule" />
+          <element id="module-output" name="JPAModule" />
+          <element id="jpa-descriptors" facet="JPAModule/jpa/JPA2" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="EJBModule/ejb/EJB" />
+    </root>
+  </artifact>
+</component>
