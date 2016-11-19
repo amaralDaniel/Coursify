@@ -16,7 +16,7 @@ public class Professor extends User implements Serializable {
     private String internalTelephone;
     private Double salary;
 
-    @OneToMany
+    @OneToMany(mappedBy = "professor")
     private List<Course> courseList;
 
     public Professor(String name, String email, String passwordHash) {

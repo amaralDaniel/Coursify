@@ -13,6 +13,6 @@ public class Student extends User implements Serializable {
 
     private Integer yearRegistry;
 
-    @ManyToMany
+    @ManyToMany(mappedBy="studentsList")
     private List<Course> coursesList;
 }
