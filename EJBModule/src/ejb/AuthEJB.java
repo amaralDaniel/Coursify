@@ -27,7 +27,8 @@ public class AuthEJB implements AuthEJBRemote {
 
     private HashMap output;
 
-    static final Logger myLogger = LogManager.getLogger(AuthEJB.class);
+    private final Logger logger = Logger.getLogger(AuthEJB.class);
+
 
     /**
      * Default constructor. 
@@ -117,12 +118,13 @@ public class AuthEJB implements AuthEJBRemote {
     }
 
     public boolean signUp(String name, String email, String password) {
-        myLogger.info("AuthEJB: Creating new user");
+        logger.info("Logger working!");
+        System.out.printf("Print");
 
 
         Professor admin = entityManager.find(Professor.class, 2);
 
-//        myLogger.info(admin.getName());
+        logger.info(admin.getName());
 
 //        myLogger.info("AuthEJB: New user created");
         return true;
