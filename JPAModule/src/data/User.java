@@ -8,7 +8,7 @@ import java.sql.Date;
  * Created by tomasfrancisco on 09/11/2016.
  */
 @Entity
-public class User implements Serializable {
+public abstract class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
