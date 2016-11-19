@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
 /**
  * Servlet implementation class PlayersTallerThan
  */
@@ -36,7 +37,8 @@ public class DummyServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
 
-        String output = ejbremote.dummyMethod();
+
+        String output = ejbremote.loginWithCredentials("amaral@gmail.com","1111");
         out.println(output + "<br/>");
     }
 

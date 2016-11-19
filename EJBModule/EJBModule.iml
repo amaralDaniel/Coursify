@@ -20,5 +20,6 @@
     <orderEntry type="library" name="ejb-3.2" level="project" />
     <orderEntry type="module" module-name="JPAModule" />
     <orderEntry type="library" name="JPA 2.0-2.0" level="project" />
+    <orderEntry type="library" name="apache-log4j:log4j:1.2.15" level="project" />
   </component>
 </module>

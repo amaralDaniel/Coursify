@@ -4,5 +4,6 @@ import javax.ejb.Remote;
 
 @Remote
 public interface AuthEJBRemote {
-    public String dummyMethod();
+    String loginWithCredentials(String email, String passwordHash);
+    String dummyMethod();
 }

@@ -17,6 +17,9 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Double number;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Token token;
+
     @Enumerated(EnumType.STRING)
     private Flag flag;
 
@@ -27,7 +30,14 @@ public class User implements Serializable {
     private String address;
     private String telephone;
 
+    private String passwordHash;
 
 
+    public Token getToken() {
+        return token;
+    }
 
+    public void setToken(Token token) {
+        this.token = token;
+    }
 }
