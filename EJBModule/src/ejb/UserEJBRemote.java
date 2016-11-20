@@ -3,5 +3,6 @@ package ejb;
 import javax.ejb.Remote;
 
 @Remote
-public interface MaterialEJBRemote {
+public interface UserEJBRemote {
+
 }

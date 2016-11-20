@@ -1,7 +1,9 @@
 package ejb;
 
-/**
- * Created by danielamaral on 18/11/2016.
- */
+import javax.ejb.Remote;
+
+@Remote
 public interface CourseEJBRemote {
+
+    String getCourses(String sessionToken);
 }
