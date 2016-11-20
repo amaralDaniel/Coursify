@@ -18,7 +18,7 @@ public class Professor extends User implements Serializable {
     private List<Course> courseList;
 
     public Professor(String name, Date birthdate, String institutionalEmail, String email, String address,
-                     String telephone, String passwordHash, String category, String office, String internalTelephone,
+                     String telephone, byte[] passwordHash, String category, String office, String internalTelephone,
                      Double salary ) {
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
@@ -31,6 +31,12 @@ public class Professor extends User implements Serializable {
         this.setOffice(office);
         this.setInternalTelephone(internalTelephone);
         this.setSalary(salary);
+    }
+
+    public Professor(String name, String email, byte[] passwordHash){
+        this.setName(name);
+        this.setEmail(email);
+        this.setPasswordHash(passwordHash);
     }
 
     public Professor() {

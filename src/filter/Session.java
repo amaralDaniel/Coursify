@@ -10,6 +10,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @WebFilter("/*")
 public class Session implements Filter {
@@ -18,6 +22,9 @@ public class Session implements Filter {
 
     @EJB
     private AuthEJBRemote authEJB;
+
+    private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<String>(
+            Arrays.asList("", "/login", "/logout", "/register")));
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -31,16 +38,19 @@ public class Session implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
-        String sessionToken = Utils.getCookie(req, "sessionToken");
+        String path = req.getRequestURI().substring(req.getContextPath().length()).replaceAll("[/]+$", "");
 
-        if(authEJB.validateSession(sessionToken)) {
-            logger.debug("Session token validated successfully");
+        String sessionToken = Utils.getCookie(req, "sessionToken");
+        boolean allowedPath = ALLOWED_PATHS.contains(path);
+
+        if(allowedPath || authEJB.validateSession(sessionToken)) {
+            logger.debug("Session authorized");
 
             filterChain.doFilter(req, res);
         } else {
             logger.debug("Session token doesn't exist");
 
-            res.sendRedirect(req.getContextPath() + "/");
+            res.sendRedirect(req.getContextPath() + "/logout");
         }
     }
 
