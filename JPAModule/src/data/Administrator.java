@@ -6,6 +6,8 @@ import java.sql.Date;
 
 @Entity
 public class Administrator extends User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public Administrator(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, byte[] passwordHash) {
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
@@ -24,5 +26,9 @@ public class Administrator extends User implements Serializable {
 
     public Administrator() {
 
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 }

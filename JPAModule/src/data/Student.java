@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 public class Student extends User implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer yearRegistry;
     @ManyToMany
     private List<Course> coursesList;
@@ -30,6 +31,10 @@ public class Student extends User implements Serializable {
     }
 
     public Student() { }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getYearRegistry() {
         return yearRegistry;

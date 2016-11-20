@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class Material {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int materialId;
@@ -21,6 +22,10 @@ public class Material {
         this.filename = filename;
         this.author = author;
         this.type = type;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getMaterialId() {

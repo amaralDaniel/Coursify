@@ -1,34 +1,39 @@
 package data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 public class Token implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idToken;
-    private String code;
 
-    public Token() {
-        super();
-        this.code = UUID.randomUUID().toString();
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String sessionToken;
+    @OneToOne
+    private User user;
+
+    //TODO: Add expiration time
+
+    public Token(User user) {
+        this.user = user;
     }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
-    public String getCode() {
-        return code;
+    public String getSessionToken() {
+        return sessionToken;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 @Entity
 public class Course {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int courseId;
@@ -24,6 +25,10 @@ public class Course {
         this.name = name;
         this.description = description;
         this.professor = professor;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getCourseId() {
