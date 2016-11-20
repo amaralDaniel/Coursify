@@ -1,5 +1,7 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -12,8 +14,7 @@ public abstract class User implements Serializable {
     private Integer userId;
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Double number;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Token token;
+
     private String name;
     private Date birthdate;
     @Column(unique = true, nullable = false)
@@ -94,15 +95,6 @@ public abstract class User implements Serializable {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
-
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
-
 
     public byte[] getPasswordHash() { return passwordHash; }
 

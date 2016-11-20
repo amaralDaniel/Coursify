@@ -1,5 +1,6 @@
 package ejb;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Professor;
 import data.Student;
 import data.Token;
@@ -14,60 +15,73 @@ import javax.persistence.Query;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 
-//myLogger imports
-
-/**
- * Session Bean implementation class AuthEJB
- */
 @Stateless(name="AuthEJB")
 public class AuthEJB implements AuthEJBRemote {
-//    private final EntityManagerFactory entityManagerFactory;
-//    private final EntityTransaction entityTransaction;
     @PersistenceContext(name="Coursify")
     private EntityManager entityManager;
 
-
-    private HashMap output;
-
     static final Logger logger = LogManager.getLogger(AuthEJB.class);
+    static final ObjectMapper mapper = new ObjectMapper();
 
-    /**
-     * Default constructor. 
-     */
     public AuthEJB() {
 
     }
 
-    public String loginWithCredentials(String email, String password) {
+    public String getUserSessionToken(String email, String password) {
         logger.info(">>>> Login with Credentials <<<<");
+
+        try {
+            User user = getUserByCredentials(email, password);
+
+            if(user != null) {
+                Token token = createNewSessionToken(user);
+
+                return token.getSessionToken();
+            }
+
+            return null;
+        } catch (Exception e) {
+            logger.error("AuthEJB: Error getting User Session Token");
+        }
+        return null;
+    }
+
+    private Token createNewSessionToken(User user) {
+        Token newToken = new Token(user);
+
+        try {
+            entityManager.persist(newToken);
+
+            return newToken;
+        } catch (Exception e) {
+            logger.error("AuthEJB: Error creating new session token: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    private User getUserByCredentials(String email, String password) {
 
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] passwordHash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
             logger.debug("AuthEJB: created password hash");
 
-            /*Query to check if password hash belongs to the given email*/
-            Query newQuery = entityManager.createQuery("FROM User user where user.institutionalEmail=?1 and user.passwordHash=?2");
-            newQuery.setParameter(1,email);
-            newQuery.setParameter(2,passwordHash);
 
+            Query newQuery = entityManager.createQuery("FROM User user where user.institutionalEmail=?1 and user.passwordHash=?2");
+            newQuery.setParameter(1, email);
+            newQuery.setParameter(2, passwordHash);
             User userToLogIn = (User) newQuery.getSingleResult();
             logger.debug("AuthEJB: completed query");
 
-            Token newToken = new Token(userToLogIn);
-            entityManager.persist(newToken);
-            logger.debug("AuthEJB: persisted new token");
-
-            logger.info("AuthEJB: user "+email+" logged in successfully");
-            return newToken.getSessionToken();
+            return userToLogIn;
         } catch (Exception e) {
-            logger.error("Error while doing login. Credentials may be wrong or don't exist");
-            return null;
+            logger.error("AuthEJB: Error getting User by credentials: " + e.getMessage());
         }
-    }
 
+        return null;
+    }
 
     public boolean validateSession(String sessionToken) {
         logger.debug(">>>> AuthEJB: Validating session <<<<");
@@ -80,7 +94,6 @@ public class AuthEJB implements AuthEJBRemote {
             return false;
         }
     }
-
 
     public boolean createProfessorAccount(String name, String institutionalEmail, String password) {
         logger.debug(">>>> AuthEJB: Creating new Professor<<<<");
@@ -95,9 +108,9 @@ public class AuthEJB implements AuthEJBRemote {
 
             logger.info("AuthEJB: New user " + prof.getName() + " created");
             return true;
-        }catch(NoSuchAlgorithmException nSAEx){
+        } catch(NoSuchAlgorithmException nSAEx){
             logger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
-        }catch (Exception ex){
+        } catch (Exception ex){
             logger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
         }
         return false;
@@ -116,30 +129,29 @@ public class AuthEJB implements AuthEJBRemote {
 
             logger.info("AuthEJB: New user " + student.getName() + " created");
             return true;
-        }catch(NoSuchAlgorithmException nSAEx){
+        } catch(NoSuchAlgorithmException nSAEx){
             logger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
-        }catch (Exception ex){
+        } catch (Exception ex){
             logger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
         }
         return false;
     }
 
     //TODO Test readAccount
-    public boolean readAccount(String sessionToken){
+    public String readAccount(String sessionToken) {
         logger.debug(">>>> AuthEJB: Read account <<<<");
-        User outputUser = null;
-
         try {
-
             Token token = getSessionToken(sessionToken);
-            int
 
-            logger.info("AuthEJB: read user account");
-            return true;
-        }catch (Exception ex){
-            logger.error("AuthEJB: Couldn't read information from User account");
+            logger.debug("AuthEJB: getting user from token");
+            User user = token.getUser();
+
+            logger.debug("AuthEJB: read user account");
+            return mapper.writeValueAsString(user);
+        } catch (Exception e) {
+            logger.error("AuthEJB: Couldn't read information from User account: " + e.getMessage());
         }
-        return false;
+        return null;
     }
 
     private Token getSessionToken(String sessionToken){
@@ -155,11 +167,15 @@ public class AuthEJB implements AuthEJBRemote {
     }
 
     //TODO updateAccount
-    public boolean updateAcount(User userToUpdate){
+    public boolean updateAcount(String sessionToken) {
         logger.debug("AuthBean: editing account info");
 
+
+
         try {
-            entityManager.persist(userToUpdate);
+
+
+
             logger.info("AuthBean: Admin edited account successfully");
             return true;
         }catch(Exception ex){
@@ -169,24 +185,45 @@ public class AuthEJB implements AuthEJBRemote {
         return false;
     }
 
+    public boolean updateAccount(String sessionToken, String userId) {
+
+        String userType = getUserType(sessionToken);
+
+        if(userType.equals("ADMINISTRATOR")) {
+
+        }
+
+        return false;
+    }
+
     //TODO removeAccount
     public boolean removeAccount(){return false;}
-
-    public String dummyMethod() {
-        return "Hello World!";
-    }
 
     public void logout(String sessionToken) {
         logger.debug(">>>> AuthEJB: Logging out <<<<");
 
         if(sessionToken != null) {
-            Token result = entityManager.find(Token.class, sessionToken);
+            try {
+                Token result = entityManager.find(Token.class, sessionToken);
 
-            if (result != null) {
-                entityManager.getTransaction().begin();
-                entityManager.remove(result);
-                entityManager.getTransaction().commit();
+
+                if (result != null) {
+                    entityManager.getTransaction().begin();
+                    entityManager.remove(result);
+                    entityManager.getTransaction().commit();
+                    logger.debug("AuthEJB: Removed session token");
+                }
+            } catch (Exception e) {
+                logger.error("AuthEJB: " + e.getMessage());
             }
         }
+    }
+
+    public String getUserType(String sessionToken) {
+        logger.debug(">>>> AuthEJB: Getting user type <<<<");
+
+        Token token = getSessionToken(sessionToken);
+
+        return token.getUser().getClass().toString().toUpperCase();
     }
 }

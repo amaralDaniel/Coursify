@@ -47,12 +47,12 @@ public class Session implements Filter {
         boolean allowedPath = ALLOWED_PATHS.contains(path) || path.startsWith(ASSETS_PATH);
         logger.debug(allowedPath);
 
-        if(allowedPath || authEJB.validateSession(sessionToken)) {
-            logger.debug("Session authorized");
+        if(authEJB.validateSession(sessionToken) || allowedPath) {
+            logger.debug(">>>> Session: Validated or Allowed Path <<<<");
 
             filterChain.doFilter(req, res);
         } else {
-            logger.debug("Session token doesn't exist");
+            logger.debug(">>>> Session: Logging out <<<<");
 
             res.sendRedirect(req.getContextPath() + "/logout");
         }

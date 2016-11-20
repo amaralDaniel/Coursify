@@ -12,10 +12,12 @@ public class Token implements Serializable {
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String sessionToken;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     //TODO: Add expiration time
+
+    public Token() { }
 
     public Token(User user) {
         this.user = user;

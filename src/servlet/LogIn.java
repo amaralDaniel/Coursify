@@ -30,7 +30,7 @@ public class LogIn extends HttpServlet {
         String password = (String) req.getParameter("password");
 
 
-        String sessionToken = authEJB.loginWithCredentials(email, password);
+        String sessionToken = authEJB.getUserSessionToken(email, password);
         myLogger.debug("LogInServlet: called loginWithCredentials method");
 
         Cookie sessionTokenCookie = new Cookie("sessionToken", sessionToken);
