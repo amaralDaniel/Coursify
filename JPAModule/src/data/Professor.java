@@ -32,9 +32,9 @@ public class Professor extends User implements Serializable {
         this.setSalary(salary);
     }
 
-    public Professor(String name, String email, byte[] passwordHash){
+    public Professor(String name, String institutionalEmail, byte[] passwordHash){
         this.setName(name);
-        this.setEmail(email);
+        this.setInstitutionalEmail(institutionalEmail);
         this.setPasswordHash(passwordHash);
     }
 

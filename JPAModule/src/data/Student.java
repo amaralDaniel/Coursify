@@ -23,9 +23,9 @@ public class Student extends User implements Serializable {
         this.setYearRegistry(yearRegistry);
     }
 
-    public Student(String name, String email, byte[] passwordHash){
+    public Student(String name, String institutionalEmail, byte[] passwordHash){
         this.setName(name);
-        this.setEmail(email);
+        this.setInstitutionalEmail(institutionalEmail);
         this.setPasswordHash(passwordHash);
     }
 
