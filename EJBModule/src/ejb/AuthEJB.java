@@ -40,9 +40,6 @@ public class AuthEJB implements AuthEJBRemote {
 
     }
 
-
-
-    //TODO check if it's done properly
     public String loginWithCredentials(String email, String password) {
         logger.info(">>>> Login with Credentials <<<<");
 
@@ -50,6 +47,7 @@ public class AuthEJB implements AuthEJBRemote {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] passwordHash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
             logger.debug("AuthEJB: created password hash");
+
             /*Query to check if password hash belongs to the given email*/
             Query newQuery = entityManager.createQuery("FROM User user where user.institutionalEmail=?1 and user.passwordHash=?2");
             newQuery.setParameter(1,email);
@@ -57,12 +55,10 @@ public class AuthEJB implements AuthEJBRemote {
 
             User userToLogIn = (User) newQuery.getSingleResult();
             logger.debug("AuthEJB: completed query");
-            Token newToken = new Token(userToLogIn);
 
-            logger.debug("AuthEJB: got a token");
-            //TODO token stuff
-            logger.debug("AuthEJB: set token to user");
+            Token newToken = new Token(userToLogIn);
             entityManager.persist(newToken);
+            logger.debug("AuthEJB: persisted new token");
 
             logger.info("AuthEJB: user "+email+" logged in successfully");
             return newToken.getSessionToken();
@@ -72,31 +68,12 @@ public class AuthEJB implements AuthEJBRemote {
         }
     }
 
-    /*
-    Used to check if given token is in the Token table, thus valid.
-     */
-    //TODO Test verifyToken
-//    public boolean verifyToken(Token providedToken){
-//        logger.info(">>>> Verifying Token <<<<");
-//        Query newQuery = entityManager.createQuery("FROM Token token where token.code=?1");
-//        newQuery.setParameter(1,providedToken.getSessionToken());
-//
-//        try{
-//            newQuery.getSingleResult();
-//            logger.info("AuthEJB: the provided token is valid");
-//            return true;
-//        }catch (Exception e){
-//            logger.error("AuthEJB: the provided token is not valid");
-//            return false;
-//        }
-//    }
 
     public boolean validateSession(String sessionToken) {
         logger.debug(">>>> AuthEJB: Validating session <<<<");
 
         try {
             Token result = entityManager.find(Token.class, sessionToken);
-
             return result != null ? true : false;
         } catch (Exception e) {
             logger.info("Session token invalid");
@@ -148,28 +125,33 @@ public class AuthEJB implements AuthEJBRemote {
     }
 
     //TODO Test readAccount
-    public boolean readAccount(Token providedToken){
-        /*myLogger.debug(">>>> AuthEJB: Read account <<<<");
+    public boolean readAccount(String sessionToken){
+        logger.debug(">>>> AuthEJB: Read account <<<<");
         User outputUser = null;
 
-        if (!verifyToken(providedToken)) {
-            myLogger.error("AuthBean: Error retrieving info of account. Token error.");
-            return false;
-        }
-
         try {
-            Query to check if password hash belongs to the given email
-            Query newQuery = entityManager.find("FROM User user WHERE user.token.code=?1");
-            newQuery.setParameter(1,providedToken.getCode());
 
-            outputUser = (User) newQuery.getSingleResult();
+            Token token = getSessionToken(sessionToken);
+            int
 
-            myLogger.info("AuthEJB: New user " + outputUser.getName() + " created");
+            logger.info("AuthEJB: read user account");
             return true;
         }catch (Exception ex){
-            myLogger.error("AuthEJB: Couldn't read information from User "+outputUser.getName()+" account");
-        }*/
+            logger.error("AuthEJB: Couldn't read information from User account");
+        }
         return false;
+    }
+
+    private Token getSessionToken(String sessionToken){
+        logger.debug(">>>> AuthEJB: getSessionToken <<<<");
+        try {
+            Token token = entityManager.find(Token.class, sessionToken);
+
+            return token;
+        }catch(Exception ex){
+            logger.error("AuthEJB: Couldn't read information from given session token");
+        }
+        return null;
     }
 
     //TODO updateAccount
