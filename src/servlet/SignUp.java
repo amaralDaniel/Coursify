@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by tomasfrancisco on 19/11/2016.
- */
 @WebServlet("/signup")
 public class SignUp extends HttpServlet {
 
@@ -28,11 +25,13 @@ public class SignUp extends HttpServlet {
         String password = (String) req.getParameter("password");
         String role = (String) req.getParameter("user-role");
 
-        if(role.equals("student")){
-            authEJB.createStudentAccount(name, email, password);
-        }else{
-            authEJB.createProfessorAccount(name, email, password);
-        }
+//        if(role.equals("student")){
+//            authEJB.createStudentAccount(name, email, password);
+//        }else{
+//            authEJB.createProfessorAccount(name, email, password);
+//        }
+
+        authEJB.createProfessorAccount(name, email, password);
 
 
 

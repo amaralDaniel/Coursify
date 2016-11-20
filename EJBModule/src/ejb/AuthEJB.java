@@ -31,7 +31,7 @@ public class AuthEJB implements AuthEJBRemote {
 
     private HashMap output;
 
-    static final Logger myLogger = LogManager.getLogger(AuthEJB.class);
+    static final Logger logger = LogManager.getLogger(AuthEJB.class);
 
     /**
      * Default constructor. 
@@ -43,31 +43,32 @@ public class AuthEJB implements AuthEJBRemote {
 
 
     //TODO check if it's done properly
-    public boolean loginWithCredentials(String email, String password){
+    public String loginWithCredentials(String email, String password) {
+        logger.info(">>>> Login with Credentials <<<<");
 
-        myLogger.info(">>>> Login with Credentials <<<<");
-
-        try{
+        try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] passwordHash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
-            myLogger.debug("AuthEJB: created password hash");
+            logger.debug("AuthEJB: created password hash");
             /*Query to check if password hash belongs to the given email*/
             Query newQuery = entityManager.createQuery("FROM User user where user.institutionalEmail=?1 and user.passwordHash=?2");
             newQuery.setParameter(1,email);
             newQuery.setParameter(2,passwordHash);
 
             User userToLogIn = (User) newQuery.getSingleResult();
-            myLogger.debug("AuthEJB: completed query");
-            Token newToken = new Token();
-            myLogger.debug("AuthEJB: got a token");
-            //TODO token stuff
-            myLogger.debug("AuthEJB: set token to user");
+            logger.debug("AuthEJB: completed query");
+            Token newToken = new Token(userToLogIn);
 
-            myLogger.info("AuthEJB: user "+email+" logged in successfully");
-            return true;
-        }catch (Exception e){
-            myLogger.error("Error while doing login. Credentials may be wrong or don't exist");
-            return false;
+            logger.debug("AuthEJB: got a token");
+            //TODO token stuff
+            logger.debug("AuthEJB: set token to user");
+            entityManager.persist(newToken);
+
+            logger.info("AuthEJB: user "+email+" logged in successfully");
+            return newToken.getSessionToken();
+        } catch (Exception e) {
+            logger.error("Error while doing login. Credentials may be wrong or don't exist");
+            return null;
         }
     }
 
@@ -75,59 +76,58 @@ public class AuthEJB implements AuthEJBRemote {
     Used to check if given token is in the Token table, thus valid.
      */
     //TODO Test verifyToken
-    public boolean verifyToken(Token providedToken){
-        myLogger.info(">>>> Verifying Token <<<<");
-        Query newQuery = entityManager.createQuery("FROM Token token where token.code=?1");
-        newQuery.setParameter(1,providedToken.getCode());
+//    public boolean verifyToken(Token providedToken){
+//        logger.info(">>>> Verifying Token <<<<");
+//        Query newQuery = entityManager.createQuery("FROM Token token where token.code=?1");
+//        newQuery.setParameter(1,providedToken.getSessionToken());
+//
+//        try{
+//            newQuery.getSingleResult();
+//            logger.info("AuthEJB: the provided token is valid");
+//            return true;
+//        }catch (Exception e){
+//            logger.error("AuthEJB: the provided token is not valid");
+//            return false;
+//        }
+//    }
 
-        try{
-            newQuery.getSingleResult();
-            myLogger.info("AuthEJB: the provided token is valid");
-            return true;
-        }catch (Exception e){
-            myLogger.error("AuthEJB: the provided token is not valid");
+    public boolean validateSession(String sessionToken) {
+        logger.debug(">>>> AuthEJB: Validating session <<<<");
+
+        try {
+            Token result = entityManager.find(Token.class, sessionToken);
+
+            return result != null ? true : false;
+        } catch (Exception e) {
+            logger.info("Session token invalid");
             return false;
         }
-    }
-    //TODO Refactor loginWithToken
-    public boolean loginWithToken(String providedToken){
-        myLogger.info(">>>> Login with Token <<<<");
-        /*HashMap result = new HashMap<>();
-
-        if(verifyToken(providedToken)){
-            myLogger.info("AuthEJB: Able to login with the provided token");
-            return true;
-        }else{
-            myLogger.info("AuthEJB: Unable to login with the provided token");
-            return false;
-        }*/
-        return true;
     }
 
 
     public boolean createProfessorAccount(String name, String institutionalEmail, String password) {
-        myLogger.debug(">>>> AuthEJB: Creating new Professor<<<<");
+        logger.debug(">>>> AuthEJB: Creating new Professor<<<<");
         Professor prof = null;
 
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
 
-            prof = new Professor(name,institutionalEmail,hash);
+            prof = new Professor(name, institutionalEmail, hash);
             entityManager.persist(prof);
 
-            myLogger.info("AuthEJB: New user " + prof.getName() + " created");
+            logger.info("AuthEJB: New user " + prof.getName() + " created");
             return true;
         }catch(NoSuchAlgorithmException nSAEx){
-            myLogger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
+            logger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
         }catch (Exception ex){
-            myLogger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
+            logger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
         }
         return false;
     }
 
     public boolean createStudentAccount(String name, String institutionalEmail, String password) {
-        myLogger.debug(">>>> AuthEJB: Creating new Student<<<<");
+        logger.debug(">>>> AuthEJB: Creating new Student<<<<");
         Student student = null;
 
         try {
@@ -137,12 +137,12 @@ public class AuthEJB implements AuthEJBRemote {
             student = new Student(name,institutionalEmail,hash);
             entityManager.persist(student);
 
-            myLogger.info("AuthEJB: New user " + student.getName() + " created");
+            logger.info("AuthEJB: New user " + student.getName() + " created");
             return true;
         }catch(NoSuchAlgorithmException nSAEx){
-            myLogger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
+            logger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
         }catch (Exception ex){
-            myLogger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
+            logger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
         }
         return false;
     }
@@ -174,14 +174,14 @@ public class AuthEJB implements AuthEJBRemote {
 
     //TODO updateAccount
     public boolean updateAcount(User userToUpdate){
-        myLogger.debug("AuthBean: editing account info");
+        logger.debug("AuthBean: editing account info");
 
         try {
             entityManager.persist(userToUpdate);
-            myLogger.info("AuthBean: Admin edited account successfully");
+            logger.info("AuthBean: Admin edited account successfully");
             return true;
         }catch(Exception ex){
-            myLogger.info("AuthBean: Admin failed to edit account");
+            logger.info("AuthBean: Admin failed to edit account");
         }
 
         return false;
@@ -194,5 +194,17 @@ public class AuthEJB implements AuthEJBRemote {
         return "Hello World!";
     }
 
+    public void logout(String sessionToken) {
+        logger.debug(">>>> AuthEJB: Logging out <<<<");
 
+        if(sessionToken != null) {
+            Token result = entityManager.find(Token.class, sessionToken);
+
+            if (result != null) {
+                entityManager.getTransaction().begin();
+                entityManager.remove(result);
+                entityManager.getTransaction().commit();
+            }
+        }
+    }
 }
