@@ -24,7 +24,9 @@ public class Session implements Filter {
     private AuthEJBRemote authEJB;
 
     private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<String>(
-            Arrays.asList("", "/login", "/logout", "/register")));
+            Arrays.asList("", "/", "/login", "/register")));
+
+    private static final String ASSETS_PATH = "/assets";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -39,18 +41,20 @@ public class Session implements Filter {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
         String path = req.getRequestURI().substring(req.getContextPath().length()).replaceAll("[/]+$", "");
+        logger.debug(path);
 
         String sessionToken = Utils.getCookie(req, "sessionToken");
-        boolean allowedPath = ALLOWED_PATHS.contains(path);
+        boolean allowedPath = ALLOWED_PATHS.contains(path) || path.startsWith(ASSETS_PATH);
+        logger.debug(allowedPath);
 
-        if(allowedPath || authEJB.validateSession(sessionToken)) {
+        if(allowedPath|| authEJB.validateSession(sessionToken)) {
             logger.debug("Session authorized");
 
             filterChain.doFilter(req, res);
         } else {
             logger.debug("Session token doesn't exist");
 
-            res.sendRedirect(req.getContextPath() + "/logout");
+            res.sendRedirect("logout.jsp");
         }
     }
 

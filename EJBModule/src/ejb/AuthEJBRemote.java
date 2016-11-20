@@ -8,4 +8,5 @@ public interface AuthEJBRemote {
 
     boolean validateSession(String sessionToken);
     boolean signUp(String name, String email, String password);
+    void logout(String sessionToken);
 }

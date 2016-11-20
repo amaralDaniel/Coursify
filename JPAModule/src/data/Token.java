@@ -12,6 +12,8 @@ public class Token implements Serializable {
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String sessionToken;
+    @OneToOne
+    private User user;
 
     public Token() { }
 
@@ -21,5 +23,13 @@ public class Token implements Serializable {
 
     public String getSessionToken() {
         return sessionToken;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

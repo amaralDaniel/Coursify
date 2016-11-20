@@ -85,11 +85,8 @@ public class AuthEJB implements AuthEJBRemote {
     public boolean validateSession(String sessionToken) {
         logger.debug(">>>> AuthEJB: Validating session <<<<");
 
-        Query query = entityManager.createQuery("FROM Token t WHERE t.sessionToken = ?1");
-        query.setParameter(1, sessionToken);
-
         try {
-            Token result = (Token) query.getSingleResult();
+            Token result = entityManager.find(Token.class, sessionToken);
 
             return result != null ? true : false;
         } catch (Exception e) {
@@ -120,5 +117,16 @@ public class AuthEJB implements AuthEJBRemote {
 
 //        myLogger.info("AuthEJB: New user created");
         return true;
+    }
+
+    public void logout(String sessionToken) {
+
+        Token result = entityManager.find(Token.class, sessionToken);
+
+        if(result != null) {
+            entityManager.getTransaction().begin();
+            entityManager.remove(result);
+            entityManager.getTransaction().commit();
+        }
     }
 }
