@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 public class Professor extends User implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String category;
     private String office;
     private String internalTelephone;
@@ -34,6 +35,10 @@ public class Professor extends User implements Serializable {
 
     public Professor() {
 
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public String getCategory() {

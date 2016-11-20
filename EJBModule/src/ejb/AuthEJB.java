@@ -12,7 +12,12 @@ import org.jboss.logging.*;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Session Bean implementation class AuthEJB
@@ -63,7 +68,7 @@ public class AuthEJB implements AuthEJBRemote {
             Token newToken = new Token();
 
             //this.entityTransaction.begin();
-            userToLogIn.getToken().setCode(newToken.getCode());
+            //userToLogIn.getToken().setCode(newToken.getCode());
             //this.entityTransaction.commit();
 
             tempOutput.put("Authentication-Token",newToken);
@@ -77,37 +82,24 @@ public class AuthEJB implements AuthEJBRemote {
         }
     }
 
-    /*
-    Used to check if given token is in the Token table, thus valid.
-     */
-    //TODO check if verifyToken works
-    public boolean verifyToken(String providedToken){
-        //myLogger.info(">>>> Verifying Token <<<<");
-        Query newQuery = entityManager.createQuery("FROM Token token where token.code=?1");
-        newQuery.setParameter(1,providedToken);
+    public boolean validateSession(String sessionToken) {
+        logger.debug(">>>> AuthEJB: Validating session <<<<");
 
-        try{
-            Token tempResult = (Token) newQuery.getSingleResult();
-            //myLogger.info("AuthEJB: the provided token is valid");
-            return true;
-        }catch (Exception e){
-            //myLogger.error("AuthEJB: the provided token is not valid");
+        Query query = entityManager.createQuery("FROM Token t WHERE t.sessionToken = ?1");
+        query.setParameter(1, sessionToken);
+
+        try {
+            Token result = (Token) query.getSingleResult();
+
+            return result != null ? true : false;
+        } catch (Exception e) {
+            logger.info("Session token invalid");
             return false;
         }
     }
-    //TODO check if loginWithToken works
-    public boolean loginWithToken(String providedToken){
-//        myLogger.info(">>>> Login with Token <<<<");
-        HashMap result = new HashMap<>();
 
-        if(verifyToken(providedToken)){
-//            myLogger.info("AuthEJB: Able to login with the provided token");
-            return true;
-        }else{
-//            myLogger.info("AuthEJB: Unable to login with the provided token");
-            return false;
-        }
-    }
+
+
     //TODO showAccountInfo
     //TODO editAccountInfo
     //TODO removeAccount

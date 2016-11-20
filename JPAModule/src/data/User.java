@@ -6,6 +6,7 @@ import java.sql.Date;
 
 @Entity
 public abstract class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
@@ -22,6 +23,10 @@ public abstract class User implements Serializable {
     private String telephone;
 
     private String passwordHash;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getUserId() {
         return userId;
