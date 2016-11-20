@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class Student extends User implements Serializable {
     private Integer yearRegistry;
-    @ManyToMany(mappedBy="studentsList")
+    @ManyToMany
     private List<Course> coursesList;
 
     public Student(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, byte[] passwordHash, Integer yearRegistry) {
