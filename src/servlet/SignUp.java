@@ -1,6 +1,5 @@
 package servlet;
 
-import ejb.AuthEJB;
 import ejb.AuthEJBRemote;
 
 import javax.ejb.EJB;
@@ -27,9 +26,15 @@ public class SignUp extends HttpServlet {
         String name     = (String) req.getParameter("name");
         String email    = (String) req.getParameter("email");
         String password = (String) req.getParameter("password");
+        String role = (String) req.getParameter("user-role");
+
+        if(role.equals("student")){
+            authEJB.createStudentAccount(name, email, password);
+        }else{
+            authEJB.createProfessorAccount(name, email, password);
+        }
 
 
-        authEJB.signUp(name, email, password);
 
         req.getRequestDispatcher("/home.jsp").forward(req, resp);
     }
