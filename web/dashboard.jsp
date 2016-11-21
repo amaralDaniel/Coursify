@@ -14,6 +14,7 @@
 <body>
     <c:import url="/courses" />
 
+    <p>${userType}</p>
     <p>${courses}</p>
 </body>
 </html>

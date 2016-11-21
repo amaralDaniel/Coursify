@@ -1,10 +1,7 @@
 package ejb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import data.Professor;
-import data.Student;
-import data.Token;
-import data.User;
+import data.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import javax.ejb.Stateless;
@@ -213,7 +210,16 @@ public class AuthEJB implements AuthEJBRemote {
         logger.debug(">>>> AuthEJB: Getting user type <<<<");
 
         Token token = getSessionToken(sessionToken);
+        User user = token.getUser();
 
-        return token.getUser().getClass().toString().toUpperCase();
+        if(Administrator.class.isInstance(user)) {
+            return "ADMINISTRATOR";
+        } else if(Professor.class.isInstance(user)) {
+            return "PROFESSOR";
+        } else if(Student.class.isInstance(user)) {
+            return "STUDENT";
+        }
+
+        return null;
     }
 }

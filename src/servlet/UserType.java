@@ -1,7 +1,7 @@
 package servlet;
 
+import ejb.AuthEJB;
 import ejb.AuthEJBRemote;
-import ejb.CourseEJBRemote;
 import utils.Utils;
 
 import javax.ejb.EJB;
@@ -12,13 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/courses")
-public class Courses extends HttpServlet {
+@WebServlet("/usertype")
+public class UserType extends HttpServlet {
 
     @EJB
-    private AuthEJBRemote authEJB;
-    @EJB
-    private CourseEJBRemote courseEJB;
+    AuthEJBRemote authEJB;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,12 +24,8 @@ public class Courses extends HttpServlet {
 
         String sessionToken = Utils.getCookie(req, "sessionToken");
 
-        String userType = authEJB.getUserType(sessionToken);
-        req.setAttribute("userType", userType);
+        authEJB.getUserType(sessionToken);
 
-        String courses = courseEJB.getCourses(sessionToken);
-        req.setAttribute("courses", courses);
 
-        req.getRequestDispatcher("/courses.jsp").forward(req, resp);
     }
 }

@@ -26,4 +26,10 @@ public final class Utils {
         sessionTokenCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
         resp.addCookie(sessionTokenCookie);
     }
+
+    public static void removeCookie(HttpServletResponse resp, String key) {
+        Cookie sessionTokenCookie = new Cookie(key, "null");
+        sessionTokenCookie.setMaxAge(0); //Store cookie for 1 year
+        resp.addCookie(sessionTokenCookie);
+    }
 }

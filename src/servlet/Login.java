@@ -19,15 +19,20 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
 
         String email    = (String) req.getParameter("email");
         String password = (String) req.getParameter("password");
 
         String sessionToken = authEJB.getUserSessionToken(email, password);
 
-        Utils.setCookie(resp, "sessionToken", sessionToken);
+        if(sessionToken != null) {
+            Utils.setCookie(resp, "sessionToken", sessionToken);
 
-        req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
+            resp.sendRedirect("dashboard.jsp");
+        } else {
+            Utils.removeCookie(resp, "sessionToken");
+
+            resp.sendRedirect("index.jsp");
+        }
     }
 }
