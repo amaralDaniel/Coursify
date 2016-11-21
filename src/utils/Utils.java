@@ -2,6 +2,7 @@ package utils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public final class Utils {
 
@@ -18,5 +19,11 @@ public final class Utils {
             }
         }
         return null;
+    }
+
+    public static void setCookie(HttpServletResponse resp, String key, String value) {
+        Cookie sessionTokenCookie = new Cookie(key, value);
+        sessionTokenCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
+        resp.addCookie(sessionTokenCookie);
     }
 }

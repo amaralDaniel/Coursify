@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/signup")
-public class SignUp extends HttpServlet {
+public class Signup extends HttpServlet {
 
     @EJB
     private AuthEJBRemote authEJB;

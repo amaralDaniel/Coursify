@@ -7,7 +7,6 @@ import data.Token;
 import data.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,7 +28,7 @@ public class AuthEJB implements AuthEJBRemote {
     }
 
     public String getUserSessionToken(String email, String password) {
-        logger.info(">>>> Login with Credentials <<<<");
+        logger.info(">>>> Getting User Session Token <<<<");
 
         try {
             User user = getUserByCredentials(email, password);
@@ -42,12 +41,13 @@ public class AuthEJB implements AuthEJBRemote {
 
             return null;
         } catch (Exception e) {
-            logger.error("AuthEJB: Error getting User Session Token");
+            logger.error("AuthEJB: Error getting User Session Token ");
         }
         return null;
     }
 
     private Token createNewSessionToken(User user) {
+        logger.info(">>>> Creating New Session Token <<<<");
         Token newToken = new Token(user);
 
         try {
@@ -62,41 +62,39 @@ public class AuthEJB implements AuthEJBRemote {
     }
 
     private User getUserByCredentials(String email, String password) {
+        logger.info(">>>> Getting User By Credentials <<<<");
 
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] passwordHash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
-            logger.debug("AuthEJB: created password hash");
-
 
             Query newQuery = entityManager.createQuery("FROM User user where user.institutionalEmail=?1 and user.passwordHash=?2");
             newQuery.setParameter(1, email);
             newQuery.setParameter(2, passwordHash);
             User userToLogIn = (User) newQuery.getSingleResult();
-            logger.debug("AuthEJB: completed query");
 
             return userToLogIn;
         } catch (Exception e) {
-            logger.error("AuthEJB: Error getting User by credentials: " + e.getMessage());
+            logger.error("AuthEJB: Error getting user by credentials: " + e.getMessage());
         }
 
         return null;
     }
 
     public boolean validateSession(String sessionToken) {
-        logger.debug(">>>> AuthEJB: Validating session <<<<");
+        logger.info(">>>> Validating session <<<<");
 
         try {
             Token result = entityManager.find(Token.class, sessionToken);
             return result != null ? true : false;
         } catch (Exception e) {
-            logger.info("Session token invalid");
+            logger.error("AuthEJB: Error validating session: " + e.getMessage());
             return false;
         }
     }
 
     public boolean createProfessorAccount(String name, String institutionalEmail, String password) {
-        logger.debug(">>>> AuthEJB: Creating new Professor<<<<");
+        logger.info(">>>> Creating Professor Account <<<<");
         Professor prof = null;
 
         try {
@@ -106,18 +104,16 @@ public class AuthEJB implements AuthEJBRemote {
             prof = new Professor(name, institutionalEmail, hash);
             entityManager.persist(prof);
 
-            logger.info("AuthEJB: New user " + prof.getName() + " created");
+            logger.debug("AuthEJB: Professor Account Created");
             return true;
-        } catch(NoSuchAlgorithmException nSAEx){
-            logger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
-        } catch (Exception ex){
-            logger.error("AuthEJB: Couldn't create professor "+prof.getName()+" account");
+        } catch (Exception e){
+            logger.error("AuthEJB: Error creating professor account: " + e.getMessage());
         }
         return false;
     }
 
     public boolean createStudentAccount(String name, String institutionalEmail, String password) {
-        logger.debug(">>>> AuthEJB: Creating new Student<<<<");
+        logger.info(">>>> AuthEJB: Creating Student Account <<<<");
         Student student = null;
 
         try {
@@ -127,19 +123,16 @@ public class AuthEJB implements AuthEJBRemote {
             student = new Student(name,institutionalEmail,hash);
             entityManager.persist(student);
 
-            logger.info("AuthEJB: New user " + student.getName() + " created");
             return true;
-        } catch(NoSuchAlgorithmException nSAEx){
-            logger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
-        } catch (Exception ex){
-            logger.error("AuthEJB: Couldn't create student "+student.getName()+" account");
+        } catch (Exception e){
+            logger.error("AuthEJB: Error creating student account: " + e.getMessage());
         }
         return false;
     }
 
     //TODO Test readAccount
     public String readAccount(String sessionToken) {
-        logger.debug(">>>> AuthEJB: Read account <<<<");
+        logger.info(">>>> AuthEJB: Reading account <<<<");
         try {
             Token token = getSessionToken(sessionToken);
 
@@ -149,19 +142,19 @@ public class AuthEJB implements AuthEJBRemote {
             logger.debug("AuthEJB: read user account");
             return mapper.writeValueAsString(user);
         } catch (Exception e) {
-            logger.error("AuthEJB: Couldn't read information from User account: " + e.getMessage());
+            logger.error("AuthEJB: Error reanding account: " + e.getMessage());
         }
         return null;
     }
 
     private Token getSessionToken(String sessionToken){
-        logger.debug(">>>> AuthEJB: getSessionToken <<<<");
+        logger.debug(">>>> AuthEJB: Getting Session Token <<<<");
         try {
             Token token = entityManager.find(Token.class, sessionToken);
 
             return token;
-        }catch(Exception ex){
-            logger.error("AuthEJB: Couldn't read information from given session token");
+        } catch(Exception e) {
+            logger.error("AuthEJB: Error getting sessio token: " + e.getMessage());
         }
         return null;
     }
@@ -173,9 +166,6 @@ public class AuthEJB implements AuthEJBRemote {
 
 
         try {
-
-
-
             logger.info("AuthBean: Admin edited account successfully");
             return true;
         }catch(Exception ex){
