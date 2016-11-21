@@ -3,12 +3,11 @@ package ejb;
 import data.Professor;
 import org.apache.log4j.Logger;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- * Created by danielamaral on 21/11/2016.
- */
+@Stateless(name="ProfessorEJB")
 public class ProfessorEJB implements ProfessorEJBRemote{
     @PersistenceContext(name="Coursify")
     EntityManager entityManager;
@@ -22,7 +21,7 @@ public class ProfessorEJB implements ProfessorEJBRemote{
 
             return professor;
         } catch (Exception e) {
-            logger.error("ProfessorEJB: Error getting professor");
+            logger.error("ProfessorEJB: Error getting professor: " + e.getMessage());
         }
         return null;
     }

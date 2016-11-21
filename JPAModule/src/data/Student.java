@@ -1,5 +1,7 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.io.Serializable;
@@ -10,6 +12,7 @@ import java.util.List;
 public class Student extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer yearRegistry;
+    @JsonIgnore
     @ManyToMany
     private List<Course> coursesList;
 

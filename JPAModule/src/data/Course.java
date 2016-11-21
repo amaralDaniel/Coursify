@@ -1,5 +1,8 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -9,13 +12,16 @@ public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int courseId;
+    private String courseId;
     private String name;
     private String description;
+    @JsonIgnore
     @ManyToOne(fetch= FetchType.LAZY)
     private Professor professor;
+    @JsonIgnore
     @ManyToMany(mappedBy="coursesList")
     private List<Student> studentsList;
+    @JsonIgnore
     @OneToMany(mappedBy="course")
     private List<Material> materialList;
 
@@ -32,11 +38,11 @@ public class Course implements Serializable {
         return serialVersionUID;
     }
 
-    public int getCourseId() {
+    public String getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
 

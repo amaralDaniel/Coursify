@@ -9,7 +9,7 @@ public abstract class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private String userId;
     private String userType;
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Double number;
@@ -31,11 +31,11 @@ public abstract class User implements Serializable {
         return serialVersionUID;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

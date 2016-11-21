@@ -6,18 +6,22 @@ import data.Material;
 import data.Professor;
 import data.Student;
 import org.apache.log4j.Logger;
-import org.hibernate.mapping.Collection;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 
 @Stateless(name="CourseEJB")
 public class CourseEJB implements CourseEJBRemote {
     @PersistenceContext(name="Coursify")
     EntityManager entityManager;
+
+    @EJB
     ProfessorEJBRemote professorEJB;
+    @EJB
     StudentEJBRemote studentEJB;
 
     private final Logger logger = Logger.getLogger(CourseEJB.class);
@@ -43,7 +47,7 @@ public class CourseEJB implements CourseEJBRemote {
         return false;
     }
 
-    public boolean addStudentToCourse (int courseId, int studentId){
+    public boolean addStudentToCourse (String courseId, String studentId){
         logger.debug(">>>> CourseEJB: Add stutdent to course <<<<");
         Course courseToAddStudent;
         Student studentToAdd;
@@ -63,7 +67,7 @@ public class CourseEJB implements CourseEJBRemote {
         return false;
     }
 
-    public String readCourse(int courseId) {
+    public String readCourse(String courseId) {
 
         logger.debug(">>>> CourseEJB: Reading course <<<<");
         Course courseToOutput;
@@ -94,7 +98,7 @@ public class CourseEJB implements CourseEJBRemote {
         return false;
     }
 
-    public boolean deleteCourse(int materialId){
+    public boolean deleteCourse(String materialId){
         logger.debug(">>>> CourseEJB: Deleting material <<<<");
 
         try{
@@ -109,7 +113,7 @@ public class CourseEJB implements CourseEJBRemote {
         return false;
     }
 
-    public Course getCourse (int courseId){
+    public Course getCourse (String courseId){
 
         try {
             Course courseToAssign = entityManager.find(Course.class, courseId);
@@ -124,7 +128,7 @@ public class CourseEJB implements CourseEJBRemote {
         //TODO: Limit access to user through session token
         try {
             Query query = entityManager.createQuery("SELECT courses FROM Course courses");
-            Collection courses = (Collection) query.getResultList();
+            List<Course> courses = (List<Course>) query.getResultList();
             return mapper.writeValueAsString(courses);
         } catch (Exception e) {
             logger.error("CourseEJB: Error getting courses: " + e.getMessage());

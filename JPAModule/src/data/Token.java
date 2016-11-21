@@ -1,5 +1,6 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ public class Token implements Serializable {
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String sessionToken;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
 

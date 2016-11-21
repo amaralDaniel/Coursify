@@ -11,6 +11,7 @@
 </head>
 <body>
 <c:import url="/users"/>
+<c:import url="/courses"/>
 <section class="hero is-info is-large">
     <!-- Hero header: will stick at the top -->
     <div class="hero-head">
@@ -222,7 +223,7 @@
             <article class="media">
                 <div class="media-content">
                     <div class="content">
-                        <form action="/courses">
+                        <form action="courses" method="POST">
                             <p class="control has-icon">
                                 <input class="input" type="text" placeholder="Name" name="name">
                                 <i class="fa fa-book" aria-hidden="true"></i>
