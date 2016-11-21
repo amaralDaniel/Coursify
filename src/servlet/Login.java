@@ -27,12 +27,10 @@ public class Login extends HttpServlet {
 
         if(sessionToken != null) {
             Utils.setCookie(resp, "sessionToken", sessionToken);
-
-            resp.sendRedirect("dashboard.jsp");
+            resp.sendRedirect(req.getContextPath() + "/dashboard.jsp");
         } else {
             Utils.removeCookie(resp, "sessionToken");
-
-            resp.sendRedirect("index.jsp");
+            resp.sendRedirect(req.getContextPath() + "/");
         }
     }
 }

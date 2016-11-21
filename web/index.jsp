@@ -44,7 +44,7 @@
                   <span class="icon">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>
                   </span>
-                  <span>Log in</span>
+                  <span>Login</span>
                 </a>
               </span>
         </div>

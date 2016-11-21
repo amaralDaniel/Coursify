@@ -45,15 +45,26 @@ public class Session implements Filter {
 
         String sessionToken = Utils.getCookie(req, "sessionToken");
         boolean allowedPath = ALLOWED_PATHS.contains(path) || path.startsWith(ASSETS_PATH);
-        logger.debug(allowedPath);
+        logger.debug("PATH: " + path);
 
-        if(authEJB.validateSession(sessionToken) || allowedPath) {
-            logger.debug(">>>> Session: Validated or Allowed Path <<<<");
+        if(path.equals("/") || path.equals("")) {
+            if(authEJB.validateSession(sessionToken)) {
+                logger.debug(">>>> Session: Validated session <<<<");
+                res.sendRedirect(req.getContextPath() + "/dashboard.jsp");
+            } else if(allowedPath) {
+                logger.debug(">>>> Session: Allowed Path <<<<");
+                filterChain.doFilter(req, res);
+            } else {
+                logger.debug(">>>> Session: Logging out <<<<");
+                res.sendRedirect(req.getContextPath() + "/logout");
+            }
+        }
 
+       if(authEJB.validateSession(sessionToken) || allowedPath) {
+            logger.debug(">>>> Session: Validated Session Or Allowed Path <<<<");
             filterChain.doFilter(req, res);
         } else {
             logger.debug(">>>> Session: Logging out <<<<");
-
             res.sendRedirect(req.getContextPath() + "/logout");
         }
     }
