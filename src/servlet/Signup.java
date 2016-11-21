@@ -18,10 +18,9 @@ public class Signup extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
 
-        String name     = (String) req.getParameter("name");
-        String email    = (String) req.getParameter("email");
+        String name = (String) req.getParameter("name");
+        String email = (String) req.getParameter("email");
         String password = (String) req.getParameter("password");
         String role = (String) req.getParameter("user-role");
 
@@ -31,10 +30,8 @@ public class Signup extends HttpServlet {
 //            authEJB.createProfessorAccount(name, email, password);
 //        }
 
-        authEJB.createProfessorAccount(name, email, password);
+        authEJB.createStudentAccount(name, email, password);
 
-
-
-        req.getRequestDispatcher("/home.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 }
