@@ -14,6 +14,7 @@ public class Student extends User implements Serializable {
     private List<Course> coursesList;
 
     public Student(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, byte[] passwordHash, Integer yearRegistry) {
+        this.setUserType("STUDENT");
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
         this.setEmail(email);
@@ -25,6 +26,7 @@ public class Student extends User implements Serializable {
     }
 
     public Student(String name, String institutionalEmail, byte[] passwordHash){
+        this.setUserType("STUDENT");
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
         this.setPasswordHash(passwordHash);
