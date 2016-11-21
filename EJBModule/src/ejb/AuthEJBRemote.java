@@ -9,7 +9,7 @@ public interface AuthEJBRemote {
     boolean createProfessorAccount(String name, String institutionalEmail, String password);
     boolean createStudentAccount(String name, String institutionalEmail, String password);
     String readAccount(String sessionToken);
-    boolean updateAcount(String sessionToken);
+    boolean updateAccount(String sessionToken);
     void logout(String sessionToken);
     String getUserType(String sessionToken);
 }

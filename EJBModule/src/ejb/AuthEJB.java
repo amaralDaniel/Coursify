@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import data.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @Stateless(name="AuthEJB")
 public class AuthEJB implements AuthEJBRemote {
@@ -157,7 +157,7 @@ public class AuthEJB implements AuthEJBRemote {
     }
 
     //TODO updateAccount
-    public boolean updateAcount(String sessionToken) {
+    public boolean updateAccount(String sessionToken) {
         logger.debug("AuthBean: editing account info");
 
 
