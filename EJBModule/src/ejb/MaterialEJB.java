@@ -2,15 +2,13 @@ package ejb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Course;
+import data.Material;
 import data.MaterialType;
 import data.Professor;
-import data.Material;
 import org.apache.log4j.Logger;
-import org.hibernate.mapping.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 
 public class MaterialEJB implements MaterialEJBRemote{
@@ -21,12 +19,12 @@ public class MaterialEJB implements MaterialEJBRemote{
     static final ObjectMapper mapper = new ObjectMapper();
 
     //TODO check if createMaterial works
-    public boolean createMaterial(String filename, int userId, MaterialType materialType, String courseId) {
+    public boolean createMaterial(String filename, int userId, MaterialType materialType, int courseId) {
         logger.debug(">>>> MaterialEJB: Creating course <<<<");
 
         try {
-            Professor professor = entityManager.find(Professor.class, userId);
-            Course courseToAssign = entityManager.find(Course.class, courseId);
+            Professor professor = getProfessor(userId);
+            Course courseToAssign = getCourse(courseId);
 
 
             if (professor != null && courseToAssign != null) {
@@ -42,11 +40,11 @@ public class MaterialEJB implements MaterialEJBRemote{
     }
 
     //TODO check if readMaterial works properly
-    public String readMaterial(String materialId) {
+    public String readMaterial(int materialId) {
         logger.debug(">>>> MaterialEJB: Reading material <<<<");
 
         try {
-            Material materialToOutput = entityManager.find(Material.class, materialId);
+            Material materialToOutput = getMaterial(materialId);
 
             logger.debug("AuthEJB: read material");
             return mapper.writeValueAsString(materialToOutput);
@@ -73,11 +71,11 @@ public class MaterialEJB implements MaterialEJBRemote{
     }
 
     //TODO check if deleteMaterial works
-    public boolean deleteMaterial(String materialId) {
+    public boolean deleteMaterial(int materialId) {
         logger.debug(">>>> MaterialEJB: Deleting material <<<<");
 
         try{
-            Material materialToRemove = entityManager.find(Material.class, materialId);
+            Material materialToRemove = getMaterial(materialId);
             entityManager.remove(materialToRemove);
 
             logger.debug("Material found and removed");
@@ -88,15 +86,37 @@ public class MaterialEJB implements MaterialEJBRemote{
         return false;
     }
 
-    //TODO getMaterial
-    public String getMaterial(String sessionToken) {
-        //TODO: Limit access to user through session token
+    public Material getMaterial (int materialId) {
+
         try {
-            Query query = entityManager.createQuery("SELECT courses FROM Course courses");
-            Collection courses = (Collection) query.getResultList();
-            return mapper.writeValueAsString(courses);
+            Material materialToOutput = entityManager.find(Material.class, materialId);
+
+            return materialToOutput;
         } catch (Exception e) {
             logger.error("CourseEJB: Error getting courses: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+    public Professor getProfessor(int userId ){
+
+        try {
+            Professor professor = entityManager.find(Professor.class, userId);
+            return professor;
+        }catch(Exception ex){
+            logger.info("MaterialEJB: Error fetching professor. Exception: " + ex.getMessage());
+        }
+        return null;
+    }
+
+    public Course getCourse (int courseId){
+
+        try {
+            Course courseToAssign = entityManager.find(Course.class, courseId);
+            return courseToAssign;
+        }catch(Exception ex){
+            logger.info("MaterialEJB: Error fetching course. Exception: " + ex.getMessage());
         }
         return null;
     }

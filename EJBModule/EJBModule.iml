@@ -25,5 +25,6 @@
     <orderEntry type="library" name="org.hibernate:hibernate-core:5.2.4.Final" level="project" />
     <orderEntry type="library" name="log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="com.fasterxml.jackson.core:jackson-databind:2.8.5" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
