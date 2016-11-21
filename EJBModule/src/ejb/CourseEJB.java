@@ -2,6 +2,7 @@ package ejb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Course;
+import data.Material;
 import data.Professor;
 import org.apache.log4j.Logger;
 import org.hibernate.mapping.Collection;
@@ -15,6 +16,7 @@ import javax.persistence.Query;
 public class CourseEJB implements CourseEJBRemote {
     @PersistenceContext(name="Coursify")
     EntityManager entityManager;
+    ProfessorEJBRemote professorEJB;
 
     private final Logger logger = Logger.getLogger(CourseEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
@@ -25,7 +27,7 @@ public class CourseEJB implements CourseEJBRemote {
         Professor professor;
 
         try {
-            professor = getProfessor(professorId);
+            professor = professorEJB.getProfessor(professorId);
 
             if(professor != null) {
                 course = new Course(name, description, professor);
@@ -39,32 +41,61 @@ public class CourseEJB implements CourseEJBRemote {
         return false;
     }
 
-    public Professor getProfessor(int professorId) {
-        logger.debug(">>>> CourseEJB: Fetching Professor<<<<");
+    public String readCourse(int courseId) {
+
+        logger.debug(">>>> MaterialEJB: Reading course <<<<");
+
         try {
-            Professor professor = entityManager.find(Professor.class, professorId);
+            Course courseToOutput= getCourse(courseId);
 
-            return professor;
-        } catch (Exception e) {
-            logger.error("CourseEJB: Error getting professor");
+            logger.debug("AuthEJB: read material");
+            return mapper.writeValueAsString(courseToOutput);
+        }catch (Exception ex){
+            logger.info("Something went wrong when trying to read a material. Exception: " + ex.getMessage());
         }
+
         return null;
+
     }
 
-    public boolean readCourse(String courseId) {
-        logger.debug(">>>> CourseEJB: Reading course <<<<");
-        Course course = entityManager.find(Course.class, courseId);
+    public boolean updateCourse(String materialObjectMapper) {
+        logger.debug(">>>> MaterialEJB: Updating material <<<<");
 
+        try{
+            Material materialToUpdate = mapper.readValue(materialObjectMapper,Material.class);
+            entityManager.persist(materialToUpdate);
+            return true;
+        }catch (Exception ex){
+            logger.info("Something went wrong when trying to update a material. Exception: " + ex.getMessage());
+        }
 
-        return true;
-    }
-
-    public boolean updateCourse() {
         return false;
     }
 
-    public boolean deleteCourse() {
-        return true;
+    public boolean deleteCourse(int materialId){
+        logger.debug(">>>> MaterialEJB: Deleting material <<<<");
+
+        try{
+            Course courseToRemove = getCourse(materialId);
+            entityManager.remove(courseToRemove);
+
+            logger.debug("Course found and removed");
+            return true;
+        }catch (Exception ex){
+            logger.info("Something went wrong when trying to delete a course. Exception: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public Course getCourse (int courseId){
+
+        try {
+            Course courseToAssign = entityManager.find(Course.class, courseId);
+            return courseToAssign;
+        }catch(Exception ex){
+            logger.info("MaterialEJB: Error fetching course. Exception: " + ex.getMessage());
+        }
+        return null;
     }
 
     public String getCourses(String sessionToken) {
@@ -78,4 +109,6 @@ public class CourseEJB implements CourseEJBRemote {
         }
         return null;
     }
+
+
 }

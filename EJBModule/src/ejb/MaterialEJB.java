@@ -14,6 +14,9 @@ import javax.persistence.PersistenceContext;
 public class MaterialEJB implements MaterialEJBRemote{
     @PersistenceContext(name="Coursify")
     EntityManager entityManager;
+    ProfessorEJBRemote professorEJB;
+    CourseEJBRemote courseEJB;
+
 
     private final Logger logger = Logger.getLogger(CourseEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
@@ -23,8 +26,8 @@ public class MaterialEJB implements MaterialEJBRemote{
         logger.debug(">>>> MaterialEJB: Creating course <<<<");
 
         try {
-            Professor professor = getProfessor(userId);
-            Course courseToAssign = getCourse(courseId);
+            Professor professor = professorEJB.getProfessor(userId);
+            Course courseToAssign = courseEJB.getCourse(courseId);
 
 
             if (professor != null && courseToAssign != null) {
@@ -99,26 +102,6 @@ public class MaterialEJB implements MaterialEJBRemote{
     }
 
 
-    public Professor getProfessor(int userId ){
 
-        try {
-            Professor professor = entityManager.find(Professor.class, userId);
-            return professor;
-        }catch(Exception ex){
-            logger.info("MaterialEJB: Error fetching professor. Exception: " + ex.getMessage());
-        }
-        return null;
-    }
-
-    public Course getCourse (int courseId){
-
-        try {
-            Course courseToAssign = entityManager.find(Course.class, courseId);
-            return courseToAssign;
-        }catch(Exception ex){
-            logger.info("MaterialEJB: Error fetching course. Exception: " + ex.getMessage());
-        }
-        return null;
-    }
 }
 
