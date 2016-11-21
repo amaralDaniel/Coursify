@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Course;
 import data.Material;
 import data.Professor;
+import data.Student;
 import org.apache.log4j.Logger;
 import org.hibernate.mapping.Collection;
 
@@ -17,6 +18,7 @@ public class CourseEJB implements CourseEJBRemote {
     @PersistenceContext(name="Coursify")
     EntityManager entityManager;
     ProfessorEJBRemote professorEJB;
+    StudentEJBRemote studentEJB;
 
     private final Logger logger = Logger.getLogger(CourseEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
@@ -41,12 +43,32 @@ public class CourseEJB implements CourseEJBRemote {
         return false;
     }
 
+    public boolean addStudentToCourse (int courseId, int studentId){
+        logger.debug(">>>> CourseEJB: Add stutdent to course <<<<");
+        Course courseToAddStudent;
+        Student studentToAdd;
+
+        try{
+            courseToAddStudent = getCourse(courseId);
+            studentToAdd = studentEJB.getStudent(studentId);
+
+            courseToAddStudent.getStudentsList().add(studentToAdd);
+            entityManager.persist(courseToAddStudent);
+            logger.info("CourseEJB: Student added to desired course");
+            return true;
+        }catch (Exception ex){
+            logger.error("CourseEJB: Error adding student to course. Exception: " + ex.getMessage());
+        }
+
+        return false;
+    }
+
     public String readCourse(int courseId) {
 
-        logger.debug(">>>> MaterialEJB: Reading course <<<<");
-
+        logger.debug(">>>> CourseEJB: Reading course <<<<");
+        Course courseToOutput;
         try {
-            Course courseToOutput= getCourse(courseId);
+            courseToOutput= getCourse(courseId);
 
             logger.debug("AuthEJB: read material");
             return mapper.writeValueAsString(courseToOutput);
@@ -59,7 +81,7 @@ public class CourseEJB implements CourseEJBRemote {
     }
 
     public boolean updateCourse(String materialObjectMapper) {
-        logger.debug(">>>> MaterialEJB: Updating material <<<<");
+        logger.debug(">>>> CourseEJB: Updating material <<<<");
 
         try{
             Material materialToUpdate = mapper.readValue(materialObjectMapper,Material.class);
@@ -73,7 +95,7 @@ public class CourseEJB implements CourseEJBRemote {
     }
 
     public boolean deleteCourse(int materialId){
-        logger.debug(">>>> MaterialEJB: Deleting material <<<<");
+        logger.debug(">>>> CourseEJB: Deleting material <<<<");
 
         try{
             Course courseToRemove = getCourse(materialId);
@@ -93,7 +115,7 @@ public class CourseEJB implements CourseEJBRemote {
             Course courseToAssign = entityManager.find(Course.class, courseId);
             return courseToAssign;
         }catch(Exception ex){
-            logger.info("MaterialEJB: Error fetching course. Exception: " + ex.getMessage());
+            logger.info("CourseEJB: Error fetching course. Exception: " + ex.getMessage());
         }
         return null;
     }
