@@ -19,18 +19,36 @@ public class CourseEJB implements CourseEJBRemote {
     private final Logger logger = Logger.getLogger(CourseEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
 
-    public boolean createCourse(String name, String description, Integer professorId) {
+    public boolean createCourse(String sessionToken, String name, String description, String professorId) {
         logger.debug(">>>> CourseEJB: Creating course <<<<");
-        Course course = null;
-        Professor professor = entityManager.find(Professor.class, professorId);
 
-        if(professor != null) {
-            course = new Course(name, description, professor);
-            entityManager.persist(course);
-            logger.info("New course created");
+        try {
+            Professor professor = getProfessor(professorId);
+
+            if(professor != null) {
+                Course course = new Course(name, description, professor);
+
+                entityManager.persist(course);
+                return true;
+            }
+
+            return false;
+        } catch (Exception e) {
+            logger.error("CourseEJB: Error creating course");
         }
 
         return true;
+    }
+
+    private Professor getProfessor(String professorId) {
+        try {
+            Professor professor = entityManager.find(Professor.class, professorId);
+
+            return professor;
+        } catch (Exception e) {
+            logger.error("CourseEJB: Error getting professor");
+        }
+        return null;
     }
 
     public boolean readCourse(String courseId) {

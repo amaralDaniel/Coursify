@@ -5,6 +5,7 @@ import data.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +20,9 @@ public class AuthEJB implements AuthEJBRemote {
 
     static final Logger logger = LogManager.getLogger(AuthEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
+
+    @EJB
+    UserEJBRemote userEJB;
 
     public AuthEJB() {
 
@@ -90,13 +94,30 @@ public class AuthEJB implements AuthEJBRemote {
         }
     }
 
+    public boolean createAdministratorAccount(String name, String institutionalEmail, String password) {
+        logger.info(">>>> Creating Administrator Account <<<<");
+        Administrator administrator = null;
+
+        try {
+            byte[] hash = getHashFromPassword(password);
+
+            administrator = new Administrator(name, institutionalEmail, hash);
+            entityManager.persist(administrator);
+
+            logger.debug("AuthEJB: Administrator Account Created");
+            return true;
+        } catch (Exception e){
+            logger.error("AuthEJB: Error creating administrator account: " + e.getMessage());
+        }
+        return false;
+    }
+
     public boolean createProfessorAccount(String name, String institutionalEmail, String password) {
         logger.info(">>>> Creating Professor Account <<<<");
         Professor prof = null;
 
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = getHashFromPassword(password);
 
             prof = new Professor(name, institutionalEmail, hash);
             entityManager.persist(prof);
@@ -114,10 +135,10 @@ public class AuthEJB implements AuthEJBRemote {
         Student student = null;
 
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = getHashFromPassword(password);
 
-            student = new Student(name,institutionalEmail,hash);
+            student = new Student(name, institutionalEmail, hash);
+
             entityManager.persist(student);
 
             return true;
@@ -125,6 +146,17 @@ public class AuthEJB implements AuthEJBRemote {
             logger.error("AuthEJB: Error creating student account: " + e.getMessage());
         }
         return false;
+    }
+
+    private byte[] getHashFromPassword(String password) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return hash;
+        } catch (Exception e) {
+            logger.error("AuthEJB: Error getting hash from password: " + e.getMessage());
+        }
+        return null;
     }
 
     //TODO Test readAccount
@@ -144,7 +176,7 @@ public class AuthEJB implements AuthEJBRemote {
         return null;
     }
 
-    private Token getSessionToken(String sessionToken){
+    public Token getSessionToken(String sessionToken) {
         logger.debug(">>>> AuthEJB: Getting Session Token <<<<");
         try {
             Token token = entityManager.find(Token.class, sessionToken);
@@ -157,7 +189,7 @@ public class AuthEJB implements AuthEJBRemote {
     }
 
     //TODO updateAccount
-    public boolean updateAccount(String sessionToken) {
+    public boolean updateAcount(String sessionToken) {
         logger.debug("AuthBean: editing account info");
 
 
@@ -174,7 +206,7 @@ public class AuthEJB implements AuthEJBRemote {
 
     public boolean updateAccount(String sessionToken, String userId) {
 
-        String userType = getUserType(sessionToken);
+        String userType = userEJB.getUserType(sessionToken);
 
         if(userType.equals("ADMINISTRATOR")) {
 
@@ -204,22 +236,5 @@ public class AuthEJB implements AuthEJBRemote {
                 logger.error("AuthEJB: " + e.getMessage());
             }
         }
-    }
-
-    public String getUserType(String sessionToken) {
-        logger.debug(">>>> AuthEJB: Getting user type <<<<");
-
-        Token token = getSessionToken(sessionToken);
-        User user = token.getUser();
-
-        if(Administrator.class.isInstance(user)) {
-            return "ADMINISTRATOR";
-        } else if(Professor.class.isInstance(user)) {
-            return "PROFESSOR";
-        } else if(Student.class.isInstance(user)) {
-            return "STUDENT";
-        }
-
-        return null;
     }
 }

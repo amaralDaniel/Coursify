@@ -1,7 +1,6 @@
 package servlet;
 
-import ejb.AuthEJB;
-import ejb.AuthEJBRemote;
+import ejb.UserEJBRemote;
 import utils.Utils;
 
 import javax.ejb.EJB;
@@ -16,7 +15,7 @@ import java.io.IOException;
 public class UserType extends HttpServlet {
 
     @EJB
-    AuthEJBRemote authEJB;
+    UserEJBRemote userEJB;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +23,7 @@ public class UserType extends HttpServlet {
 
         String sessionToken = Utils.getCookie(req, "sessionToken");
 
-        authEJB.getUserType(sessionToken);
+        userEJB.getUserType(sessionToken);
 
 
     }

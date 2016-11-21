@@ -18,9 +18,9 @@ public class Administrator extends User implements Serializable {
         this.setBirthdate(birthdate);
     }
 
-    public Administrator(String name, String email, byte[] passwordHash){
+    public Administrator(String name, String institutionalEmail, byte[] passwordHash){
         this.setName(name);
-        this.setEmail(email);
+        this.setInstitutionalEmail(institutionalEmail);
         this.setPasswordHash(passwordHash);
     }
 
