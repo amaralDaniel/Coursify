@@ -22,5 +22,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jstl:jstl:1.2" level="project" />
     <orderEntry type="library" name="org.json:json:20160810" level="project" />
+    <orderEntry type="library" name="javax.el:javax.el-api:3.0.1-b04" level="project" />
   </component>
 </module>

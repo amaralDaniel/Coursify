@@ -29,7 +29,7 @@ public class Courses extends HttpServlet {
     @EJB
     private UserEJBRemote userEJB;
 
-    static final Logger logger = LogManager.getLogger(Users.class);
+    static final Logger logger = LogManager.getLogger(Courses.class);
     static final ObjectMapper mapper = new ObjectMapper();
 
     @Override

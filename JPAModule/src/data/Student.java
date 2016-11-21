@@ -16,7 +16,8 @@ public class Student extends User implements Serializable {
     @ManyToMany
     private List<Course> coursesList;
 
-    public Student(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, byte[] passwordHash, Integer yearRegistry) {
+    public Student(String name, String birthdate, String institutionalEmail, String email, String address,
+                   String telephone, byte[] passwordHash, Integer yearRegistry) {
         this.setUserType("STUDENT");
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);

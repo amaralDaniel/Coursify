@@ -8,7 +8,7 @@ import java.sql.Date;
 public class Administrator extends User implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public Administrator(String name, Date birthdate, String institutionalEmail, String email, String address, String telephone, byte[] passwordHash) {
+    public Administrator(String name, String birthdate, String institutionalEmail, String email, String address, String telephone, byte[] passwordHash) {
         this.setUserType("ADMINISTRATOR");
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);

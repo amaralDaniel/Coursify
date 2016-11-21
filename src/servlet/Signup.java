@@ -24,13 +24,13 @@ public class Signup extends HttpServlet {
         String password = (String) req.getParameter("password");
         String userType = (String) req.getParameter("userType");
 
-        if(userType.equals("PROFESSOR")) {
-            authEJB.createProfessorAccount(name, email, password);
-        } else if(userType.equals("STUDENT")) {
-            authEJB.createStudentAccount(name, email, password);
-        } else if(userType.equals("ADMINISTRATOR")) {
-            authEJB.createAdministratorAccount(name, email, password);
-        }
+//        if(userType.equals("PROFESSOR")) {
+//            authEJB.createProfessorAccount(name, email, password);
+//        } else if(userType.equals("STUDENT")) {
+//            authEJB.createStudentAccount(name, email, password);
+//        } else if(userType.equals("ADMINISTRATOR")) {
+//            authEJB.createAdministratorAccount(name, email, password);
+//        }
 
         resp.sendRedirect(req.getContextPath() + "/");
     }

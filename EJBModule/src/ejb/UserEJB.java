@@ -108,4 +108,39 @@ public class UserEJB implements UserEJBRemote {
         }
         return null;
     }
+
+    public String getUser(String sessionToken, String userId) {
+        String userType = getUserType(sessionToken);
+
+        if(userType.equals("ADMINISTRATOR")) {
+            User user = getAccount(userId);
+            try {
+                return mapper.writeValueAsString(user);
+            } catch (Exception e) {
+                logger.error("UserEJB: Error getting user from ADMINISTRATOR: " + e.getMessage());
+            }
+        } else {
+            try {
+                Token token = authEJB.getSessionToken(sessionToken);
+                User user = token.getUser();
+
+                if(user.getUserId().equals(userId)) {
+                    return mapper.writeValueAsString(user);
+                }
+                return null;
+            } catch (Exception e) {
+                logger.error("UserEJB: Error getting user from PROFESSOR or STUDENT: " + e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    private User getAccount(String userId) {
+        try {
+            User user = entityManager.find(User.class, userId);
+        } catch (Exception e) {
+            logger.error("UserEJB: Error getting account: " + e.getMessage());
+        }
+        return null;
+    }
 }

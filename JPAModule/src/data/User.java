@@ -15,7 +15,7 @@ public abstract class User implements Serializable {
     private Double number;
 
     private String name;
-    private Date birthdate;
+    private String birthdate;
     @Column(unique = true, nullable = false)
     private String institutionalEmail;
     private String email;
@@ -63,11 +63,11 @@ public abstract class User implements Serializable {
         this.name = name;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 

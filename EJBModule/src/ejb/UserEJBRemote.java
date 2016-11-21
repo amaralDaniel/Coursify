@@ -8,4 +8,5 @@ public interface UserEJBRemote {
     String getAllUsers(String sessionToken);
     String getStudents(String sessionToken);
     String getProfessors(String sessionToken);
+    String getUser(String sessionToken, String userId);
 }

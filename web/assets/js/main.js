@@ -8,4 +8,8 @@ $(document).ready(function() {
     $(this).parent().removeClass('is-active');
   });
 
+  $(".date-picker").flatpickr({});
+
+  flatpickr(".flatpickr");
+
 });

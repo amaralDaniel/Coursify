@@ -17,23 +17,6 @@ public class Professor extends User implements Serializable {
     @OneToMany(mappedBy = "professor")
     private List<Course> courseList;
 
-    public Professor(String name, Date birthdate, String institutionalEmail, String email, String address,
-                     String telephone, byte[] passwordHash, String category, String office, String internalTelephone,
-                     Double salary ) {
-        this.setUserType("PROFESSOR");
-        this.setName(name);
-        this.setInstitutionalEmail(institutionalEmail);
-        this.setEmail(email);
-        this.setAddress(address);
-        this.setTelephone(telephone);
-        this.setPasswordHash(passwordHash);
-        this.setBirthdate(birthdate);
-        this.setCategory(category);
-        this.setOffice(office);
-        this.setInternalTelephone(internalTelephone);
-        this.setSalary(salary);
-    }
-
     public Professor(String name, String institutionalEmail, byte[] passwordHash) {
         this.setUserType("PROFESSOR");
         this.setName(name);
@@ -41,8 +24,24 @@ public class Professor extends User implements Serializable {
         this.setPasswordHash(passwordHash);
     }
 
-    public Professor() {
+    public Professor(String name, String birthdate, String institutionalEmail,
+                     String alternativeEmail, String address, String phone, String category,
+                     String office, String internalPhone, Double salary, byte[] password) {
+        this.setUserType("PROFESSOR");
+        this.setName(name);
+        this.setBirthdate(birthdate);
+        this.setInstitutionalEmail(institutionalEmail);
+        this.setEmail(alternativeEmail);
+        this.setAddress(address);
+        this.setTelephone(phone);
+        this.setCategory(category);
+        this.setOffice(office);
+        this.setInternalTelephone(internalPhone);
+        this.setSalary(salary);
+        this.setPasswordHash(password);
+    }
 
+    public Professor() {
     }
 
     public static long getSerialVersionUID() {
