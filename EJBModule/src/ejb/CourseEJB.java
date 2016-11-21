@@ -23,7 +23,7 @@ public class CourseEJB implements CourseEJBRemote {
     private final Logger logger = Logger.getLogger(CourseEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
 
-    public boolean createCourse(String name, String description, Integer professorId) {
+    public boolean createCourse(String name, String description, String professorId) {
         logger.debug(">>>> CourseEJB: Creating course <<<<");
         Course course;
         Professor professor;

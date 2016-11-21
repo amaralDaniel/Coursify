@@ -30,15 +30,7 @@ public class UserEJB implements UserEJBRemote {
         Token token = authEJB.getSessionToken(sessionToken);
         User user = token.getUser();
 
-        if(Administrator.class.isInstance(user)) {
-            return "ADMINISTRATOR";
-        } else if(Professor.class.isInstance(user)) {
-            return "PROFESSOR";
-        } else if(Student.class.isInstance(user)) {
-            return "STUDENT";
-        }
-
-        return null;
+        return user.getUserType();
     }
 
     public String getAllUsers(String sessionToken) {
@@ -61,25 +53,27 @@ public class UserEJB implements UserEJBRemote {
         String userType = getUserType(sessionToken);
 
         if(userType.equals("PROFESSOR")) {
-            List<Professor> professors = getProfessors();
+            List<Student> students = getStudents();
             try {
-                return mapper.writeValueAsString(professors);
+                return mapper.writeValueAsString(students);
             } catch (Exception e) {
-                logger.error("UserEJB: Error transforming professors: " + e.getMessage());
+                logger.error("UserEJB: Error transforming students: " + e.getMessage());
             }
         }
         return null;
     }
 
     public String getProfessors(String sessionToken) {
+        logger.info(">>>> Getting Professors <<<<");
+
         String userType = getUserType(sessionToken);
 
         if(userType.equals("STUDENT")) {
-            List<Student> students = getStudents();
+            List<Professor> professors = getProfessors();
             try {
-                return mapper.writeValueAsString(students);
+                return mapper.writeValueAsString(professors);
             } catch (Exception e) {
-                logger.error("UserEJB: Error transforming students: " + e.getMessage());
+                logger.error("UserEJB: Error transforming professors: " + e.getMessage());
             }
         }
         return null;

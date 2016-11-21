@@ -7,9 +7,9 @@ import javax.ejb.Remote;
 
 @Remote
 public interface MaterialEJBRemote {
-    boolean createMaterial(String filename, int userId, MaterialType materialType, int courseId);
-    String readMaterial(int materialId);
+    boolean createMaterial(String filename, String userId, MaterialType materialType, String courseId);
+    String readMaterial(String materialId);
     boolean updateMaterial(String materialObjectMapper);
-    boolean deleteMaterial(int materialId);
-    Material getMaterial(int materialId);
+    boolean deleteMaterial(String materialId);
+    Material getMaterial(String materialId);
 }

@@ -22,7 +22,7 @@ public class StudentEJB implements StudentEJBRemote {
     private final Logger logger = Logger.getLogger(CourseEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
 
-    public Student getStudent(int studentId){
+    public Student getStudent(String studentId){
         try {
             Student studentToOutput = entityManager.find(Student.class, studentId);
 

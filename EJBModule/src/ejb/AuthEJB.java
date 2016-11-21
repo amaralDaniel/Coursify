@@ -28,8 +28,8 @@ public class AuthEJB implements AuthEJBRemote {
 
     }
 
-    public String getUserSessionToken(String email, String password) {
-        logger.info(">>>> Getting User Session Token <<<<");
+    public String createUserSessionToken(String email, String password) {
+        logger.info(">>>> Creating User Session Token <<<<");
 
         try {
             User user = getUserByCredentials(email, password);
@@ -42,7 +42,7 @@ public class AuthEJB implements AuthEJBRemote {
 
             return null;
         } catch (Exception e) {
-            logger.error("AuthEJB: Error getting User Session Token ");
+            logger.error("AuthEJB: Error creating User Session Token ");
         }
         return null;
     }

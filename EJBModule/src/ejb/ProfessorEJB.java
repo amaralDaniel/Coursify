@@ -15,7 +15,7 @@ public class ProfessorEJB implements ProfessorEJBRemote{
 
     private final Logger logger = Logger.getLogger(CourseEJB.class);
 
-    public Professor getProfessor(int professorId) {
+    public Professor getProfessor(String professorId) {
         logger.debug(">>>> ProfessorEJB: Fetching Professor <<<<");
         try {
             Professor professor = entityManager.find(Professor.class, professorId);
