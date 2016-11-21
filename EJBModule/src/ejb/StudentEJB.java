@@ -33,7 +33,9 @@ public class StudentEJB implements StudentEJBRemote {
         return null;
     }
 
-    public String listStudentsAlphabetically(int courseId){
+
+
+    public String listStudentsAlphabetically(String courseId){
         List studentsList;
         Course course;
 

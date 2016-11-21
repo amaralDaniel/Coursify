@@ -7,6 +7,6 @@ import javax.ejb.Remote;
 @Remote
 public interface StudentEJBRemote {
 
-    Student getStudent(int studentId);
-    String listStudentsAlphabetically(int courseId);
+    Student getStudent(String studentId);
+    String listStudentsAlphabetically(String courseId);
 }
