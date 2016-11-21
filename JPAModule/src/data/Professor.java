@@ -20,6 +20,7 @@ public class Professor extends User implements Serializable {
     public Professor(String name, Date birthdate, String institutionalEmail, String email, String address,
                      String telephone, byte[] passwordHash, String category, String office, String internalTelephone,
                      Double salary ) {
+        this.setUserType("PROFESSOR");
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
         this.setEmail(email);
@@ -33,7 +34,8 @@ public class Professor extends User implements Serializable {
         this.setSalary(salary);
     }
 
-    public Professor(String name, String institutionalEmail, byte[] passwordHash){
+    public Professor(String name, String institutionalEmail, byte[] passwordHash) {
+        this.setUserType("PROFESSOR");
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
         this.setPasswordHash(passwordHash);
