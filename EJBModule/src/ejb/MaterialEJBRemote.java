@@ -1,9 +1,7 @@
 package ejb;
 
-import data.Course;
 import data.Material;
 import data.MaterialType;
-import data.Professor;
 
 import javax.ejb.Remote;
 
@@ -14,6 +12,4 @@ public interface MaterialEJBRemote {
     boolean updateMaterial(String materialObjectMapper);
     boolean deleteMaterial(int materialId);
     Material getMaterial(int materialId);
-    Professor getProfessor(int userId );
-    Course getCourse(int courseId);
 }
