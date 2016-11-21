@@ -15,7 +15,7 @@ public class StudentEJB implements StudentEJBRemote {
 
     private final Logger logger = Logger.getLogger(CourseEJB.class);
 
-    public Student getStudent(int studentId){
+    public Student getStudent(String studentId){
         try {
             Student studentToOutput = entityManager.find(Student.class, studentId);
 

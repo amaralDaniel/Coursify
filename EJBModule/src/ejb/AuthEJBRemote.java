@@ -6,7 +6,7 @@ import javax.ejb.Remote;
 
 @Remote
 public interface AuthEJBRemote {
-    String getUserSessionToken(String email, String password);
+    String createUserSessionToken(String email, String password);
     boolean validateSession(String sessionToken);
     boolean createAdministratorAccount(String name, String institutionalEmail, String password);
     boolean createProfessorAccount(String name, String institutionalEmail, String password);

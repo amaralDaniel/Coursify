@@ -46,7 +46,7 @@ public class Courses extends HttpServlet {
         String professorId  = (String) req.getParameter("professorId");
 
 
-        courseEJB.createCourse(sessionToken, name, description, professorId);
+        courseEJB.createCourse(name, description, professorId);
 
         resp.sendRedirect("/dashboard.jsp");
     }

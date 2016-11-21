@@ -152,10 +152,11 @@
             <form action="signup" method="POST">
               <p class="control">
                   <span class="select">
-                    <select>
+                    <select name="userType">
                       <option>Role</option>
-                      <option>Teacher</option>
-                      <option>Student</option>
+                      <option value="ADMINISTRATOR">Administrator</option>
+                      <option value="PROFESSOR">Professor</option>
+                      <option value="STUDENT">Student</option>
                     </select>
                   </span>
               </p>

@@ -6,13 +6,11 @@ import javax.ejb.Remote;
 
 @Remote
 public interface CourseEJBRemote {
-    boolean createCourse(String name, String description, Integer professorId);
-    boolean addStudentToCourse (int courseId, int studentId);
-    String readCourse(int courseId);
+    boolean createCourse(String name, String description, String professorId);
+    boolean addStudentToCourse (String courseId, String studentId);
+    String readCourse(String courseId);
     boolean updateCourse(String materialObjectMapper);
-    boolean deleteCourse(int materialId);
-    Course getCourse (int courseId);
+    boolean deleteCourse(String materialId);
+    Course getCourse (String courseId);
     String getCourses(String sessionToken);
-
-
 }

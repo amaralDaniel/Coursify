@@ -7,6 +7,6 @@ import data.Student;
  */
 public interface StudentEJBRemote {
 
-    Student getStudent(int studentId);
+    Student getStudent(String studentId);
 
 }

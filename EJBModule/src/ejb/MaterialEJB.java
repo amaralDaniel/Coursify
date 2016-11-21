@@ -22,7 +22,7 @@ public class MaterialEJB implements MaterialEJBRemote{
     static final ObjectMapper mapper = new ObjectMapper();
 
     //TODO check if createMaterial works
-    public boolean createMaterial(String filename, int userId, MaterialType materialType, int courseId) {
+    public boolean createMaterial(String filename, String userId, MaterialType materialType, String courseId) {
         logger.debug(">>>> MaterialEJB: Creating course <<<<");
 
         try {

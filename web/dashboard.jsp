@@ -1,12 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: tomasfrancisco
-  Date: 20/11/2016
-  Time: 22:55
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+
 <html>
 <head>
     <title>Coursify</title>
@@ -16,9 +10,7 @@
     <script src="assets/js/main.js"></script>
 </head>
 <body>
-<c:import url="users"/>
-
-${users}
+<c:import url="/users"/>
 <section class="hero is-info is-large">
     <!-- Hero header: will stick at the top -->
     <div class="hero-head">
@@ -58,93 +50,44 @@ ${users}
         <nav class="nav">
             <div class="container">
                 <div class="nav-left">
-              <span class="nav-item">
-                <a class="button is-info is-inverted modal-open" for="create-course-modal">
-                  <span class="icon">
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                <c:if test="${userType == 'ADMINISTRATOR'}">
+                  <span class="nav-item">
+                    <a class="button is-info is-inverted modal-open" for="create-course-modal">
+                      <span class="icon">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                      </span>
+                      <span>Create Course</span>
+                    </a>
                   </span>
-                  <span>Create Course</span>
-                </a>
-              </span>
+                </c:if>
                     <span class="nav-item">
-                <a class="button is-info is-inverted">
-                  <span class="icon">
-                    <i class="fa fa-user-plus" aria-hidden="true"></i>
-                  </span>
-                  <span>Create User</span>
-                </a>
-              </span>
+                    <a class="button is-info is-inverted">
+                      <span class="icon">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                      </span>
+                      <span>Create User</span>
+                    </a>
+                    </span>
 
                 </div>
             </div>
         </nav>
 
         <div class="columns">
+            <c:if test="${userType == 'STUDENT'}">
             <div class="column">
                 <nav class="panel">
                     <p class="panel-heading">
                         My Professors
                     </p>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
+                    <c:forEach items="${users}" var="user">
+                        <a class="panel-block is-active" href="#">
+                            <span class="panel-icon">
+                              <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
+                            </span>
+                            ${user.name}
+                        </a>
+                    </c:forEach>
                 </nav>
             </div>
             <div class="column">
@@ -152,136 +95,52 @@ ${users}
                     <p class="panel-heading">
                         My Courses
                     </p>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
+                    <c:forEach items="${courses}" var="course">
+                        <a class="panel-block is-active" href="#">
+                            <span class="panel-icon">
+                              <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
+                            </span>
+                                ${course.name}
+                        </a>
+                    </c:forEach>
                 </nav>
-
             </div>
+            </c:if>
+            <c:if test="${userType == 'PROFESSOR'}">
             <div class="column">
                 <nav class="panel">
                     <p class="panel-heading">
                         My Students
                     </p>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
+                    <c:forEach items="${users}" var="user">
+                        <a class="panel-block is-active" href="#">
+                            <span class="panel-icon">
+                              <i class="fa fa-podcast" style="color: #56b881;" aria-hidden="true"></i>
+                            </span>
+                                ${user.name}
+                        </a>
+                    </c:forEach>
                 </nav>
             </div>
+            </c:if>
+            <c:if test="${(userType == 'PROFESSOR') || (userType == 'STUDENT')}">
+                <div class="column">
+                    <nav class="panel">
+                        <p class="panel-heading">
+                            My Courses
+                        </p>
+                        <c:forEach items="${courses}" var="course">
+                            <a class="panel-block is-active" href="#">
+                            <span class="panel-icon">
+                              <i class="fa fa-podcast" style="color: #56b881;" aria-hidden="true"></i>
+                            </span>
+                                    ${course.name}
+                            </a>
+                        </c:forEach>
+                    </nav>
+                </div>
+            </c:if>
+            <c:if test="${userType == 'ADMINISTRATOR'}">
             <div class="column">
                 <nav class="panel">
                     <p class="panel-heading">
@@ -292,135 +151,51 @@ ${users}
                         <a href="#">Professors</a>
                         <a href="#">Students</a>
                     </p>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
+                    <c:forEach items="${users}" var="user">
+                        <c:if test="${user.userType == 'ADMINISTRATOR'}">
+                        <a class="panel-block is-active" href="#">
+                            <span class="panel-icon">
+                                <i class="fa fa-user-md" style="color: #e55e5e;" aria-hidden="true"></i>
+                            </span>
+                                ${user.name}
+                        </a>
+                        </c:if>
+                        <c:if test="${user.userType == 'PROFESSOR'}">
+                            <a class="panel-block is-active" href="#">
+                            <span class="panel-icon">
+                              <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
+                            </span>
+                                ${user.name}
+                            </a>
+                        </c:if>
+                        <c:if test="${user.userType == 'STUDENT'}">
+                            <a class="panel-block is-active" href="#">
+                            <span class="panel-icon">
+                              <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
+                            </span>
+                                ${user.name}
+                            </a>
+                        </c:if>
+                    </c:forEach>
                 </nav>
             </div>
+
             <div class="column">
                 <nav class="panel">
                     <p class="panel-heading">
                         Manage Courses
                     </p>
+                    <c:forEach items="${courses}" var="course">
                     <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
+                        <span class="panel-icon">
+                          <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
+                        </span>
+                            ${course.name}
                     </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
-                    <a class="panel-block is-active" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        José Alberto
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Andreia Rodrigues
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
-                </span>
-                        Luís Marmelo
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Rui Luís
-                    </a>
-                    <a class="panel-block" href="#">
-                <span class="panel-icon">
-                  <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                </span>
-                        Gonçalo Marques
-                    </a>
+                    </c:forEach>
                 </nav>
             </div>
+            </c:if>
         </div>
     </div>
 </section>
@@ -447,29 +222,32 @@ ${users}
             <article class="media">
                 <div class="media-content">
                     <div class="content">
-                        <form>
+                        <form action="/courses">
                             <p class="control has-icon">
-                                <input class="input" type="text" placeholder="Name">
+                                <input class="input" type="text" placeholder="Name" name="name">
                                 <i class="fa fa-book" aria-hidden="true"></i>
                             </p>
                             <p class="control has-icon">
-                                <input class="input" type="text" placeholder="Description">
+                                <input class="input" type="text" placeholder="Description" name="description">
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                             </p>
                             <p class="control">
-                    <span class="select">
-                      <select>
-                        <option>Select a Professor</option>
-                        <option>Professor #2</option>
-                        <option>Professor #3</option>
-                      </select>
-                    </span>
+                                <span class="select">
+                                  <select name="professorId">
+                                      <option>Select a Professor</option>
+                                      <c:forEach items="${users}" var="user">
+                                          <c:if test="${user.userType == 'PROFESSOR'}">
+                                              <option value="${user.userId}">${user.name}</option>
+                                          </c:if>
+                                      </c:forEach>
+                                  </select>
+                                </span>
                             </p>
                             <p class="control">
                                 <button class="button is-primary">
-                      <span class="icon">
-                        <i class="fa fa-sign-in" aria-hidden="true"></i>
-                      </span>
+                                      <span class="icon">
+                                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                      </span>
                                     <span>Create course</span>
                                 </button>
                             </p>

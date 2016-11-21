@@ -23,7 +23,7 @@ public class Login extends HttpServlet {
         String email    = (String) req.getParameter("email");
         String password = (String) req.getParameter("password");
 
-        String sessionToken = authEJB.getUserSessionToken(email, password);
+        String sessionToken = authEJB.createUserSessionToken(email, password);
 
         if(sessionToken != null) {
             Utils.setCookie(resp, "sessionToken", sessionToken);
