@@ -58,14 +58,14 @@ public class Session implements Filter {
                 logger.debug(">>>> Session: Logging out <<<<");
                 res.sendRedirect(req.getContextPath() + "/logout");
             }
-        }
-
-       if(authEJB.validateSession(sessionToken) || allowedPath) {
-            logger.debug(">>>> Session: Validated Session Or Allowed Path <<<<");
-            filterChain.doFilter(req, res);
         } else {
-            logger.debug(">>>> Session: Logging out <<<<");
-            res.sendRedirect(req.getContextPath() + "/logout");
+            if(authEJB.validateSession(sessionToken) || allowedPath) {
+                logger.debug(">>>> Session: Validated Session Or Allowed Path <<<<");
+                filterChain.doFilter(req, res);
+            } else {
+                logger.debug(">>>> Session: Logging out <<<<");
+                res.sendRedirect(req.getContextPath() + "/logout");
+            }
         }
     }
 
