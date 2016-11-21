@@ -3,12 +3,11 @@ package ejb;
 import data.Student;
 import org.apache.log4j.Logger;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- * Created by danielamaral on 21/11/2016.
- */
+@Stateless(name="StudentEJB")
 public class StudentEJB implements StudentEJBRemote {
     @PersistenceContext(name="Coursify")
     EntityManager entityManager;

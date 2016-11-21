@@ -7,14 +7,19 @@ import data.MaterialType;
 import data.Professor;
 import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
+@Stateless(name="MaterialEJB")
 public class MaterialEJB implements MaterialEJBRemote{
     @PersistenceContext(name="Coursify")
     EntityManager entityManager;
+
+    @EJB
     ProfessorEJBRemote professorEJB;
+    @EJB
     CourseEJBRemote courseEJB;
 
 
@@ -43,7 +48,7 @@ public class MaterialEJB implements MaterialEJBRemote{
     }
 
     //TODO check if readMaterial works properly
-    public String readMaterial(int materialId) {
+    public String readMaterial(String materialId) {
         logger.debug(">>>> MaterialEJB: Reading material <<<<");
 
         try {
@@ -74,7 +79,7 @@ public class MaterialEJB implements MaterialEJBRemote{
     }
 
     //TODO check if deleteMaterial works
-    public boolean deleteMaterial(int materialId) {
+    public boolean deleteMaterial(String materialId) {
         logger.debug(">>>> MaterialEJB: Deleting material <<<<");
 
         try{
@@ -89,7 +94,7 @@ public class MaterialEJB implements MaterialEJBRemote{
         return false;
     }
 
-    public Material getMaterial (int materialId) {
+    public Material getMaterial (String materialId) {
 
         try {
             Material materialToOutput = entityManager.find(Material.class, materialId);

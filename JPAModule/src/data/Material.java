@@ -1,5 +1,7 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,12 +9,14 @@ public class Material {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int materialId;
+    private String materialId;
     private String filename;
     @Enumerated(EnumType.STRING)
     private MaterialType type; //pdf, zip, etc
+    @JsonIgnore
     @ManyToOne
     private Course course;
+    @JsonIgnore
     @OneToOne
     private User author;
 
@@ -29,11 +33,11 @@ public class Material {
         return serialVersionUID;
     }
 
-    public int getMaterialId() {
+    public String getMaterialId() {
         return materialId;
     }
 
-    public void setMaterialId(int materialId) {
+    public void setMaterialId(String materialId) {
         this.materialId = materialId;
     }
 

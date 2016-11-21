@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Stateless
+@Stateless(name="UserEJB")
 public class UserEJB implements UserEJBRemote {
 
     @PersistenceContext(name="Coursify")

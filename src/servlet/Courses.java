@@ -1,9 +1,14 @@
 package servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.CourseDTO;
+import dto.UserDTO;
 import ejb.AuthEJBRemote;
 import ejb.CourseEJBRemote;
 import ejb.UserEJB;
 import ejb.UserEJBRemote;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import utils.Utils;
 
 import javax.ejb.EJB;
@@ -24,6 +29,9 @@ public class Courses extends HttpServlet {
     @EJB
     private UserEJBRemote userEJB;
 
+    static final Logger logger = LogManager.getLogger(Users.class);
+    static final ObjectMapper mapper = new ObjectMapper();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String sessionToken = Utils.getCookie(req, "sessionToken");
@@ -31,8 +39,10 @@ public class Courses extends HttpServlet {
         String userType = userEJB.getUserType(sessionToken);
         req.setAttribute("userType", userType);
 
-        String courses = courseEJB.getCourses(sessionToken);
+        CourseDTO[] courses = mapper.readValue(courseEJB.getCourses(sessionToken), CourseDTO[].class);
         req.setAttribute("courses", courses);
+
+        logger.debug("COURSES: " + courses.toString());
 
         req.getRequestDispatcher("/courses.jsp").forward(req, resp);
     }
@@ -48,6 +58,6 @@ public class Courses extends HttpServlet {
 
         courseEJB.createCourse(name, description, professorId);
 
-        resp.sendRedirect("/dashboard.jsp");
+        resp.sendRedirect(req.getContextPath() + "/dashboard.jsp");
     }
 }

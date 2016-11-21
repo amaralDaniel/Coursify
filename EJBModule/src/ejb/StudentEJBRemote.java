@@ -2,9 +2,9 @@ package ejb;
 
 import data.Student;
 
-/**
- * Created by danielamaral on 21/11/2016.
- */
+import javax.ejb.Remote;
+
+@Remote
 public interface StudentEJBRemote {
 
     Student getStudent(String studentId);
