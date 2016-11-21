@@ -8,5 +8,5 @@ import data.Student;
 public interface StudentEJBRemote {
 
     Student getStudent(int studentId);
-
+    String listStudentsAlphabetically(int courseId);
 }
