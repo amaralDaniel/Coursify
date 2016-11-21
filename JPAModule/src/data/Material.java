@@ -18,10 +18,11 @@ public class Material {
 
     public Material() { }
 
-    public Material(String filename, User author, MaterialType type) {
+    public Material(String filename, User author, MaterialType type, Course course) {
         this.filename = filename;
         this.author = author;
         this.type = type;
+        this.course = course;
     }
 
     public static long getSerialVersionUID() {
