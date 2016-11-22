@@ -82,6 +82,23 @@ public class AuthEJB implements AuthEJBRemote {
         return null;
     }
 
+    private User getUserByInstitutionalEmail(String institutionalEmail) {
+        logger.info(">>>> Getting User By Institutional Email <<<<");
+
+        try {
+
+            Query newQuery = entityManager.createQuery("FROM User user where user.institutionalEmail=?1");
+            newQuery.setParameter(1, institutionalEmail);
+            User userToRetrieve = (User) newQuery.getSingleResult();
+
+            return userToRetrieve;
+        } catch (Exception e) {
+            logger.error("AuthEJB: Error getting user by institutional email: " + e.getMessage());
+        }
+
+        return null;
+    }
+
     public boolean validateSession(String sessionToken) {
         logger.info(">>>> Validating session <<<<");
 
@@ -180,7 +197,6 @@ public class AuthEJB implements AuthEJBRemote {
         return null;
     }
 
-    //TODO Test readAccount
     public String readAccount(String sessionToken) {
         logger.info(">>>> AuthEJB: Reading account <<<<");
         try {
@@ -209,35 +225,20 @@ public class AuthEJB implements AuthEJBRemote {
         return null;
     }
 
-    //TODO updateAccount
-    public boolean updateAcount(String sessionToken) {
-        logger.debug("AuthBean: editing account info");
+    public boolean removeAccount(String institutionalEmail) {
+        logger.debug(">>>> AuthEJB: Remove user <<<<");
 
+        try{
+            User userToRemove= getUserByInstitutionalEmail(institutionalEmail);
+            entityManager.remove(userToRemove);
 
-
-        try {
-            logger.info("AuthBean: Admin edited account successfully");
+            logger.debug("User found and removed");
             return true;
-        }catch(Exception ex){
-            logger.info("AuthBean: Admin failed to edit account");
+        }catch (Exception ex){
+            logger.info("Something went wrong when trying to delete an user. Exception: " + ex.getMessage());
         }
-
         return false;
     }
-
-    public boolean updateAccount(String sessionToken, String userId) {
-
-        String userType = userEJB.getUserType(sessionToken);
-
-        if(userType.equals("ADMINISTRATOR")) {
-
-        }
-
-        return false;
-    }
-
-    //TODO removeAccount
-    public boolean removeAccount(){return false;}
 
     public void logout(String sessionToken) {
         logger.debug(">>>> AuthEJB: Logging out <<<<");

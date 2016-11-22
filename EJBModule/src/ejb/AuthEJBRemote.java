@@ -16,6 +16,6 @@ public interface AuthEJBRemote {
     boolean createStudentAccount(String name, String institutionalEmail, String password);
     String readAccount(String sessionToken);
     Token getSessionToken(String sessionToken);
-    boolean updateAcount(String sessionToken);
     void logout(String sessionToken);
+    boolean removeAccount(String institutionalEmail);
 }
