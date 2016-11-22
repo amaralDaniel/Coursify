@@ -139,8 +139,7 @@ public class UserEJB implements UserEJBRemote {
             }
         } else {
             try {
-                Token token = authEJB.getSessionToken(sessionToken);
-                User user = token.getUser();
+                User user = getAccount(userId);
 
                 if(user.getUserId().equals(userId)) {
                     return getUserDTOFromEntity(user);

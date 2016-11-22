@@ -9,6 +9,7 @@ public class CourseDTO implements Serializable {
     private String courseId;
     private String name;
     private String description;
+    private String professorId;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -36,5 +37,13 @@ public class CourseDTO implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProfessorId() {
+        return professorId;
+    }
+
+    public void setProfessorId(String professorId) {
+        this.professorId = professorId;
     }
 }

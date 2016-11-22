@@ -61,7 +61,7 @@ public class MaterialEJB implements MaterialEJBRemote{
 
             logger.debug("AuthEJB: read material");
             return mapper.writeValueAsString(materialToOutput);
-        }catch (Exception ex){
+        }catch (Exception ex) {
             logger.info("Something went wrong when trying to read a material. Exception: " + ex.getMessage());
         }
 

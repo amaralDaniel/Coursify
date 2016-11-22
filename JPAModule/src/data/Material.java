@@ -18,7 +18,7 @@ public class Material {
     @ManyToOne
     private Course course;
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     private User author;
 
     public Material() { }

@@ -24,6 +24,15 @@ public class Material extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String courseId = req.getParameter("courseId");
+        String delete = req.getParameter("delete");
+        String materialId = req.getParameter("id");
+
+        if(delete != null && delete.equals("true")) {
+            materialEJB.deleteMaterial(materialId);
+            resp.sendRedirect(req.getContextPath() + "/");
+            return;
+        }
+
         ArrayList<MaterialDTO> materials = materialEJB.getMaterials(courseId);
 
         req.setAttribute("materials", materials);
@@ -35,10 +44,10 @@ public class Material extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String update = req.getParameter("update");
-        String delete = req.getParameter("delete");
+
         String create = req.getParameter("create");
 
-        String materialId = req.getParameter("materialId");
+        String materialId = req.getParameter("id");
         String filename = req.getParameter("filename");
         String professorId = req.getParameter("professorId");
         String courseId = req.getParameter("courseId");
@@ -48,9 +57,8 @@ public class Material extends HttpServlet {
             materialEJB.createMaterial(filename, courseId, professorId, type);
         } else if(update != null && update.equals("true")) {
             materialEJB.updateMaterial(createMaterialDTO(materialId, filename));
-        } else if(delete != null && delete.equals("true")) {
-            materialEJB.deleteMaterial(materialId);
         }
+
         resp.sendRedirect(req.getContextPath() + "/");
         return;
     }

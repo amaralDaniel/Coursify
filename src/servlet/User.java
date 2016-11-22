@@ -3,6 +3,7 @@ package servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.UserDTO;
 import ejb.AuthEJBRemote;
+import ejb.StudentEJBRemote;
 import ejb.UserEJBRemote;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -25,12 +26,27 @@ public class User extends HttpServlet {
     @EJB
     private UserEJBRemote userEJB;
 
+    @EJB
+    private StudentEJBRemote studentEJB;
+
     static final Logger logger = LogManager.getLogger(User.class);
     static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String sessionToken = Utils.getCookie(req, "sessionToken");
+
+        String search = req.getParameter("search");
+
+        if(search != null && search.equals("true")) {
+            String keywords = req.getParameter("keywords");
+
+            String studentId = studentEJB.searchStudent(keywords);
+
+            resp.sendRedirect(req.getContextPath() + "/user.jsp?id="+studentId);
+            return;
+        }
+
         String userId = req.getParameter("id");
         UserDTO user = userEJB.getUser(sessionToken, userId);
         String loggedInUserId = userEJB.getUserId(sessionToken);

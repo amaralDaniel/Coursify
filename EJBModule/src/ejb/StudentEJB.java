@@ -3,6 +3,7 @@ package ejb;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Course;
 import data.Student;
+import dto.UserDTO;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -54,9 +55,9 @@ public class StudentEJB implements StudentEJBRemote {
         return null;
     }
 
-    public List<Student> searchStudent(String reference){
+    public String searchStudent(String reference){
 
-        List<Student> searchResults;
+        Student studentResult;
 
         try {
             Query newQuery = entityManager.createQuery("FROM User user where user.userType=?1 and (user.name=?2 or user.institutionalEmail=?3 or user.email=?4)");
@@ -65,14 +66,15 @@ public class StudentEJB implements StudentEJBRemote {
             newQuery.setParameter(3, reference);
             newQuery.setParameter(4, reference);
 
-            searchResults = newQuery.getResultList();
+            studentResult = (Student) newQuery.getSingleResult();
 
-            return searchResults;
+            if(studentResult != null) {
+                return studentResult.getUserId();
+            }
         } catch (Exception e){
             logger.info("StudentEJB: Exception caught trying to search for student. Exception: " + e.getMessage());
         }
         return null;
     }
-
 
 }

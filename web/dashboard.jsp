@@ -72,7 +72,7 @@
                     <c:forEach items="${courses}" var="course">
                         <a class="panel-block is-active" href="course.jsp?id=${course.courseId}">
                             <span class="panel-icon">
-                              <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
+                              <i class="fa fa-book" aria-hidden="true"></i>
                             </span>
                             ${course.name}
                         </a>
@@ -89,11 +89,30 @@
                     <c:forEach items="${users}" var="user">
                         <a class="panel-block is-active" href="user.jsp?id=${user.userId}">
                             <span class="panel-icon">
-                              <i class="fa fa-podcast" style="color: #56b881;" aria-hidden="true"></i>
+                              <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
                             </span>
                             ${user.name}
                         </a>
                     </c:forEach>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
+                        Search for Student
+                    </p>
+                    <form action="user" method="GET">
+                        <input type="text" style="display: none;" name="search" value="true">
+                        <p class="control panel-block">
+                            <input class="input" type="text" placeholder="Type here..." name="keywords">
+                        </p>
+                        <button class="panel-block button is-primary" style="margin: 0 0 10px 10px;" type="submit">
+                            <span class="has-icon">
+                                <i class="fa fa-search" style="color: white;" aria-hidden="true"></i>
+                            </span>
+                            Search
+                        </button>
+                    </form>
                 </nav>
             </div>
             </c:if>
@@ -104,12 +123,14 @@
                             My Courses
                         </p>
                         <c:forEach items="${courses}" var="course">
-                            <a class="panel-block is-active" href="course.jsp?id=${course.courseId}">
-                                <span class="panel-icon">
-                                  <i class="fa fa-podcast" style="color: #56b881;" aria-hidden="true"></i>
-                                </span>
-                                ${course.name}
-                            </a>
+                            <c:if test="${(course.professorId == userId) && userType == 'PROFESSOR'}">
+                                <a class="panel-block is-active" href="course.jsp?id=${course.courseId}">
+                                    <span class="panel-icon">
+                                      <i class="fa fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    ${course.name}
+                                </a>
+                            </c:if>
                         </c:forEach>
                     </nav>
                 </div>
@@ -139,9 +160,9 @@
                         </c:if>
                         <c:if test="${user.userType == 'STUDENT'}">
                             <a class="panel-block is-active" href="user.jsp?id=${user.userId}">
-                            <span class="panel-icon">
-                              <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
-                            </span>
+                                <span class="panel-icon">
+                                    <i class="fa fa-graduation-cap" style="color: #34a9ca;" aria-hidden="true"></i>
+                                </span>
                                 ${user.name}
                             </a>
                         </c:if>

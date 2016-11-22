@@ -4,6 +4,7 @@ import data.Course;
 import dto.CourseDTO;
 
 import javax.ejb.Remote;
+import java.util.ArrayList;
 
 @Remote
 public interface CourseEJBRemote {
@@ -12,7 +13,7 @@ public interface CourseEJBRemote {
     String readCourse(String courseId);
     boolean updateCourse(CourseDTO course);
     boolean deleteCourse(String courseId);
-    String getCourses(String sessionToken);
+    ArrayList<CourseDTO> getCourses(String sessionToken);
     CourseDTO getCourse(String courseId);
     Course getCourseEntity(String courseId);
 }

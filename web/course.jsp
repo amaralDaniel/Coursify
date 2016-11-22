@@ -55,6 +55,7 @@
                                 <input class="input" type="text" placeholder="Description" name="description" value="${course.description}">
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </p>
+                            <c:if test="${userType == 'ADMINISTRATOR'}">
                             <p class="control">
                                 <button class="button is-primary" type="submit">
                                     <span class="icon">
@@ -63,7 +64,9 @@
                                     <span>Save</span>
                                 </button>
                             </p>
+                            </c:if>
                         </form>
+                        <c:if test="${userType == 'ADMINISTRATOR'}">
                         <form action="course?delete=true" method="POST">
                             <input style="display: none;" type="text" value="${course.courseId}" name="courseId">
                             <button class="button is-danger" type="submit">
@@ -73,21 +76,33 @@
                                 <span>Delete</span>
                             </button>
                         </form>
+                        </c:if>
                     </div>
                 </nav>
             </div>
             <div class="column">
                 <nav class="panel">
                     <p class="panel-heading">
-                        My Courses
+                        Materials
                     </p>
                     <c:forEach items="${materials}" var="material">
-                        <a class="panel-block is-active" href="course.jsp?id=${material.materialId}">
-                            <span class="panel-icon">
-                              <i class="fa fa-download" style="color: #56b881;" aria-hidden="true"></i>
-                            </span>
-                                ${material.filename} by ${material.professorName}
-                        </a>
+                        <div class="panel-block">
+                            <div class="columns">
+                                <div class="column">
+                                    <a class="panel-block is-active" href="material.jsp?id=${material.materialId}">
+                                        <span class="panel-icon">
+                                          <i class="fa fa-download" style="color: #56b881;" aria-hidden="true"></i>
+                                        </span>
+                                            ${material.filename} by ${material.professorName}
+                                    </a>
+                                </div>
+                                <div class="column">
+                                    <a class="button is-danger" href="material?delete=true&id=${material.materialId}">
+                                        <i class="fa fa-trash" style="color: white;" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </c:forEach>
                 </nav>
             </div>

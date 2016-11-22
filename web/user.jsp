@@ -21,7 +21,7 @@
 <c:if test="${not empty user}">
 <section class="section">
     <div class="container">
-        <h1 class="title">Edit user information</h1>
+        <h1 class="title">User panel</h1>
         <div class="columns">
             <div class="column">
                 <div class="box">
@@ -79,16 +79,18 @@
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                         </p>
                                     </c:if>
-                                    <p class="control">
-                                        <button class="button is-primary" type="submit">
-                                            <span class="icon">
-                                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                            </span>
-                                            <span>Save</span>
-                                        </button>
-                                    </p>
+                                    <c:if test="${(loggedInUserId == user.userId) || (userType == 'ADMINISTRATOR')}">
+                                        <p class="control">
+                                            <button class="button is-primary" type="submit">
+                                                <span class="icon">
+                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                                </span>
+                                                <span>Save</span>
+                                            </button>
+                                        </p>
+                                    </c:if>
                                 </form>
-                                <c:if test="${loggedInUserId != user.userId}">
+                                <c:if test="${(loggedInUserId != user.userId) && (userType == 'ADMINISTRATOR')}">
                                 <form action="user?delete=true" method="POST">
                                     <input style="display: none;" type="text" value="${user.userId}" name="userId">
                                     <button class="button is-danger" type="submit">

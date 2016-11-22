@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet("/courses")
 public class Courses extends HttpServlet {
@@ -28,7 +29,6 @@ public class Courses extends HttpServlet {
     private UserEJBRemote userEJB;
 
     static final Logger logger = LogManager.getLogger(Courses.class);
-    static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class Courses extends HttpServlet {
         String userType = userEJB.getUserType(sessionToken);
         req.setAttribute("userType", userType);
 
-        CourseDTO[] courses = mapper.readValue(courseEJB.getCourses(sessionToken), CourseDTO[].class);
+        ArrayList<CourseDTO> courses = courseEJB.getCourses(sessionToken);
         req.setAttribute("courses", courses);
 
         logger.debug("COURSES: " + courses.toString());

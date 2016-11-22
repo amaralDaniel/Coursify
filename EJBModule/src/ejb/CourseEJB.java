@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless(name="CourseEJB")
@@ -105,14 +106,31 @@ public class CourseEJB implements CourseEJBRemote {
 
         try{
             Course courseToRemove = getCourseEntity(courseId);
-            entityManager.remove(courseToRemove);
 
-            logger.debug("Course found and removed");
-            return true;
+            if(courseToRemove != null) {
+
+                Query query = entityManager.createQuery("FROM Material material WHERE material.course.courseId = ?1");
+                query.setParameter(1, courseId);
+                ArrayList<Material> materials = (ArrayList<Material>) query.getResultList();
+
+                deleteMaterials(materials);
+
+                entityManager.remove(courseToRemove);
+                return true;
+            }
+
+
+
         }catch (Exception ex){
             logger.error("Something went wrong when trying to delete a course. Exception: " + ex.getMessage());
         }
         return false;
+    }
+
+    private void deleteMaterials(ArrayList<Material> materials) {
+        for(Material material : materials) {
+            entityManager.remove(material);
+        }
     }
 
     public Course getCourseEntity(String courseId) {
@@ -135,26 +153,37 @@ public class CourseEJB implements CourseEJBRemote {
         return null;
     }
 
-    private CourseDTO getCourseDTOFromEntity(Course course) throws Exception {
+    private CourseDTO getCourseDTOFromEntity(Course course) {
         CourseDTO courseDTO = new CourseDTO();
 
         courseDTO.setCourseId(course.getCourseId());
         courseDTO.setName(course.getName());
         courseDTO.setDescription(course.getDescription());
+        courseDTO.setProfessorId(course.getProfessor().getUserId());
 
         return courseDTO;
     }
 
-    public String getCourses(String sessionToken) {
+    public ArrayList<CourseDTO> getCourses(String sessionToken) {
         //TODO: Limit access to user through session token
         try {
             Query query = entityManager.createQuery("SELECT courses FROM Course courses");
-            List<Course> courses = (List<Course>) query.getResultList();
-            return mapper.writeValueAsString(courses);
+            ArrayList<Course> courses = (ArrayList<Course>) query.getResultList();
+
+
+            return getListOfCourseDTO(courses);
         } catch (Exception e) {
             logger.error("CourseEJB: Error getting courses: " + e.getMessage());
         }
         return null;
+    }
+
+    private ArrayList<CourseDTO> getListOfCourseDTO(ArrayList<Course> courses) {
+        ArrayList<CourseDTO> coursesDTO = new ArrayList<CourseDTO>();
+        for(Course course : courses) {
+            coursesDTO.add(getCourseDTOFromEntity(course));
+        }
+        return coursesDTO;
     }
 
 
