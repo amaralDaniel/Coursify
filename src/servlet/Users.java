@@ -1,12 +1,10 @@
 package servlet;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.UserDTO;
 import ejb.UserEJBRemote;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 import utils.Utils;
 
 import javax.ejb.EJB;
@@ -16,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 @WebServlet("/users")
 public class Users extends HttpServlet {
