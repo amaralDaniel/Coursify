@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.List;
 
 @Stateless(name="AuthEJB")
 public class AuthEJB implements AuthEJBRemote {
@@ -86,11 +87,11 @@ public class AuthEJB implements AuthEJBRemote {
         logger.info(">>>> Getting User By Institutional Email <<<<");
 
         try {
-
             Query newQuery = entityManager.createQuery("FROM User user where user.institutionalEmail=?1");
-            newQuery.setParameter(1, institutionalEmail);
+            newQuery.setParameter(1, institutionalEmail.toString());
             User userToRetrieve = (User) newQuery.getSingleResult();
 
+            logger.info("UserToRetrieve: " + userToRetrieve);
             return userToRetrieve;
         } catch (Exception e) {
             logger.error("AuthEJB: Error getting user by institutional email: " + e.getMessage());
@@ -225,11 +226,32 @@ public class AuthEJB implements AuthEJBRemote {
         return null;
     }
 
+    private boolean deleteTokensFromSpecificUser(User user){
+        logger.debug(">>>> Deleting Tokens From Specific User <<<<");
+
+        try{
+            Query newQuery = entityManager.createQuery("FROM Token token where token.user=?1");
+            newQuery.setParameter(1, user);
+            List<Token> tokenList = newQuery.getResultList();
+            logger.debug("The token list: " + tokenList);
+
+            tokenList.forEach(entityManager::remove);
+            logger.info("Removed all tokens from specific user");
+
+            return true;
+        } catch(Exception ex){
+            logger.error("Something went wrong: Exception: " + ex.getMessage());
+        }
+        return false;
+    }
+
     public boolean removeAccount(String institutionalEmail) {
         logger.debug(">>>> AuthEJB: Remove user <<<<");
 
         try{
             User userToRemove= getUserByInstitutionalEmail(institutionalEmail);
+            deleteTokensFromSpecificUser(userToRemove);
+
             entityManager.remove(userToRemove);
 
             logger.debug("User found and removed");
