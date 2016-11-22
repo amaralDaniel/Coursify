@@ -2,10 +2,8 @@ package servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.CourseDTO;
-import dto.UserDTO;
 import ejb.AuthEJBRemote;
 import ejb.CourseEJBRemote;
-import ejb.UserEJB;
 import ejb.UserEJBRemote;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

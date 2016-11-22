@@ -9,11 +9,11 @@ import java.sql.Date;
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer userId;
+    private String userId;
     private String userType;
     private Double number;
     private String name;
-    private Date birthdate;
+    private String birthdate;
     private String institutionalEmail;
     private String email;
     private String address;
@@ -22,16 +22,17 @@ public class UserDTO implements Serializable {
     private String office;
     private String internalTelephone;
     private Double salary;
+    private Integer yearRegistry;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -59,11 +60,11 @@ public class UserDTO implements Serializable {
         this.name = name;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -129,5 +130,13 @@ public class UserDTO implements Serializable {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public Integer getYearRegistry() {
+        return yearRegistry;
+    }
+
+    public void setYearRegistry(Integer yearRegistry) {
+        this.yearRegistry = yearRegistry;
     }
 }

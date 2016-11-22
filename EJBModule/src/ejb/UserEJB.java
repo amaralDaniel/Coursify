@@ -2,6 +2,7 @@ package ejb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.*;
+import dto.UserDTO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -109,13 +110,15 @@ public class UserEJB implements UserEJBRemote {
         return null;
     }
 
-    public String getUser(String sessionToken, String userId) {
+    public UserDTO getUser(String sessionToken, String userId) {
+        logger.info(">>>> Getting User <<<<");
         String userType = getUserType(sessionToken);
 
         if(userType.equals("ADMINISTRATOR")) {
             User user = getAccount(userId);
+            logger.info("USER: " + user.toString());
             try {
-                return mapper.writeValueAsString(user);
+                return getUserDTOFromEntity(user);
             } catch (Exception e) {
                 logger.error("UserEJB: Error getting user from ADMINISTRATOR: " + e.getMessage());
             }
@@ -125,7 +128,7 @@ public class UserEJB implements UserEJBRemote {
                 User user = token.getUser();
 
                 if(user.getUserId().equals(userId)) {
-                    return mapper.writeValueAsString(user);
+                    return getUserDTOFromEntity(user);
                 }
                 return null;
             } catch (Exception e) {
@@ -135,12 +138,71 @@ public class UserEJB implements UserEJBRemote {
         return null;
     }
 
+    private UserDTO getUserDTOFromEntity(User user) throws Exception {
+        UserDTO userDTO = new UserDTO();
+        String userType = user.getUserType();
+
+        userDTO.setUserId(user.getUserId());
+        userDTO.setUserType(user.getUserType());
+        userDTO.setNumber(user.getNumber());
+        userDTO.setName(user.getName());
+        userDTO.setBirthdate(user.getBirthdate());
+        userDTO.setInstitutionalEmail(user.getInstitutionalEmail());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setAddress(user.getAddress());
+        userDTO.setTelephone(user.getTelephone());
+
+        if (userType.equals("PROFESSOR")) {
+            Professor professor = (Professor) user;
+
+            userDTO.setInternalTelephone(professor.getInternalTelephone());
+            userDTO.setCategory(professor.getCategory());
+            userDTO.setOffice(professor.getOffice());
+            userDTO.setInternalTelephone(professor.getInternalTelephone());
+            userDTO.setSalary(professor.getSalary());
+        }
+
+        logger.debug("UserDTO created: " + userDTO.toString());
+
+        return userDTO;
+    }
+
     private User getAccount(String userId) {
         try {
             User user = entityManager.find(User.class, userId);
+
+            if(user == null) {
+                logger.warn("UserEJB: User not found");
+            }
+            return user;
         } catch (Exception e) {
             logger.error("UserEJB: Error getting account: " + e.getMessage());
         }
         return null;
+    }
+
+    public boolean updateUser(UserDTO user) {
+        String userType = user.getUserType();
+        try {
+            if (userType.equals("ADMINISTRATOR")) {
+                Administrator administrator = entityManager.find(Administrator.class, user.getUserId());
+
+                administrator.setName(user.getName());
+                administrator.setBirthdate(user.getBirthdate());
+                administrator.setInstitutionalEmail(user.getInstitutionalEmail());
+                administrator.setEmail(user.getEmail());
+                administrator.setAddress(user.getAddress());
+                administrator.setTelephone(user.getTelephone());
+
+                return true;
+            } else if (userType.equals("PROFESSOR")) {
+
+            } else if (userType.equals("STUDENT")) {
+
+            }
+        } catch (Exception e) {
+            logger.error("UserEJB: Error updating user " + e.getMessage());
+        }
+        return false;
     }
 }

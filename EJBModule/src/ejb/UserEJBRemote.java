@@ -1,5 +1,7 @@
 package ejb;
 
+import dto.UserDTO;
+
 import javax.ejb.Remote;
 
 @Remote
@@ -8,5 +10,6 @@ public interface UserEJBRemote {
     String getAllUsers(String sessionToken);
     String getStudents(String sessionToken);
     String getProfessors(String sessionToken);
-    String getUser(String sessionToken, String userId);
+    UserDTO getUser(String sessionToken, String userId);
+    boolean updateUser(UserDTO user);
 }
