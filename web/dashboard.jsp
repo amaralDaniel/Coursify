@@ -1,14 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
-
+<c:import url="/users"/>
+<c:import url="/courses"/>
 <html>
 <head>
     <title>Coursify</title>
     <jsp:include page="head.jsp"/>
 </head>
 <body>
-<c:import url="/users"/>
-<c:import url="/courses"/>
+
 
 <jsp:include page="nav-logout.jsp"/>
 
@@ -37,7 +37,7 @@
                     <span class="nav-item">
                         <a class="button is-info is-inverted modal-open" for="create-course-modal">
                           <span class="icon">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>
                           </span>
                           <span>Create Course</span>
                         </a>

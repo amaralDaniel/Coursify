@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<c:import url="/user?id=${param.id}"/>
 
 <html>
 <head>
@@ -16,7 +17,7 @@
 <body>
 <jsp:include page="nav-logout.jsp"/>
 
-<c:import url="/user?id=${param.id}"/>
+
 <c:if test="${not empty user}">
 <section class="section">
     <div class="container">

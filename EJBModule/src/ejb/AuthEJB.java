@@ -169,6 +169,26 @@ public class AuthEJB implements AuthEJBRemote {
         return false;
     }
 
+    public boolean createStudentAccount(String name, String birthdate, String institutionalEmail,
+                                        String alternativeEmail, String address, String phone, String password, String year) {
+        logger.info(">>>> AuthEJB: Creating Student Account <<<<");
+        Student student = null;
+
+        try {
+            byte[] hash = getHashFromPassword(password);
+
+            student = new Student(name, birthdate, institutionalEmail, alternativeEmail, address,
+                    phone, hash, year);
+
+            entityManager.persist(student);
+
+            return true;
+        } catch (Exception e){
+            logger.error("AuthEJB: Error creating student account: " + e.getMessage());
+        }
+        return false;
+    }
+
     public boolean createStudentAccount(String name, String institutionalEmail, String password) {
         logger.info(">>>> AuthEJB: Creating Student Account <<<<");
         Student student = null;

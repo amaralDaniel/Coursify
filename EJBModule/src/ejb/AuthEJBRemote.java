@@ -14,6 +14,8 @@ public interface AuthEJBRemote {
                                    String office, String internalPhone, String salary, String password);
     boolean createProfessorAccount(String name, String institutionalEmail, String password);
     boolean createStudentAccount(String name, String institutionalEmail, String password);
+    boolean createStudentAccount(String name, String birthdate, String institutionalEmail,
+                                 String alternativeEmail, String address, String phone, String password, String year);
     String readAccount(String sessionToken);
     Token getSessionToken(String sessionToken);
     void logout(String sessionToken);

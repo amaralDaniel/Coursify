@@ -30,7 +30,9 @@ public class Users extends HttpServlet {
         String sessionToken = Utils.getCookie(req, "sessionToken");
 
         String userType = userEJB.getUserType(sessionToken);
+        String userId = userEJB.getUserId(sessionToken);
         req.setAttribute("userType", userType);
+        req.setAttribute("userId", userId);
 
         if(userType.equals("ADMINISTRATOR")) {
             UserDTO[] users = mapper.readValue(userEJB.getAllUsers(sessionToken), UserDTO[].class);

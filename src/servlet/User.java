@@ -82,9 +82,9 @@ public class User extends HttpServlet {
             logger.debug("SALARY: " + salary);
         }
 
-        Integer year = null;
+        String year = null;
         if(userType.equals("STUDENT")) {
-            year = Integer.valueOf(req.getParameter("year"));
+            year = req.getParameter("year");
         }
 
 
@@ -113,7 +113,7 @@ public class User extends HttpServlet {
 
     private UserDTO createUserDTO(String userId, String userType, String name, String birthdate, String institutionalEmail,
                                   String alternativeEmail, String address, String phone, String category,
-                                  String office, String internalPhone, String salary, Integer yearRegistry) {
+                                  String office, String internalPhone, String salary, String yearRegistry) {
         UserDTO user = new UserDTO();
 
         user.setUserId(userId);

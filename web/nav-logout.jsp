@@ -27,13 +27,21 @@
                         Home
                     </a>
                     <span class="nav-item">
-                <a class="button is-info is-inverted" href="logout">
-                  <span class="icon">
-                    <i class="fa fa-sign-out" aria-hidden="true"></i>
-                  </span>
-                  <span>Logout</span>
-                </a>
-              </span>
+                        <a class="button is-outlined" style="background-color: transparent; color: white; border-color: white;" href="user.jsp?id=${userId}">
+                          <span class="icon">
+                            <i class="fa fa-user" style="color: white;" aria-hidden="true"></i>
+                          </span>
+                            <span>My Account</span>
+                        </a>
+                    </span>
+                    <span class="nav-item">
+                        <a class="button is-info is-inverted" href="logout">
+                          <span class="icon">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                          </span>
+                          <span>Logout</span>
+                        </a>
+                    </span>
                 </div>
             </div>
         </header>

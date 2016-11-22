@@ -40,10 +40,6 @@
                                 <i class="fa fa-user" aria-hidden="true"></i>
                             </p>
                             <p class="control has-icon">
-                                <input class="input" type="text" placeholder="Office" name="year">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                            </p>
-                            <p class="control has-icon">
                                 <input class="input" type="password" placeholder="Password" name="password">
                                 <i class="fa fa-lock"></i>
                             </p>

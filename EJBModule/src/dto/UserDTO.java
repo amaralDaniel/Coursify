@@ -21,7 +21,7 @@ public class UserDTO implements Serializable {
     private String office;
     private String internalTelephone;
     private String salary;
-    private Integer yearRegistry;
+    private String yearRegistry;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -131,11 +131,11 @@ public class UserDTO implements Serializable {
         this.salary = salary;
     }
 
-    public Integer getYearRegistry() {
+    public String getYearRegistry() {
         return yearRegistry;
     }
 
-    public void setYearRegistry(Integer yearRegistry) {
+    public void setYearRegistry(String yearRegistry) {
         this.yearRegistry = yearRegistry;
     }
 }

@@ -11,13 +11,13 @@ import java.util.List;
 @Entity
 public class Student extends User implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Integer yearRegistry;
+    private String yearRegistry;
     @JsonIgnore
     @ManyToMany
     private List<Course> coursesList;
 
     public Student(String name, String birthdate, String institutionalEmail, String email, String address,
-                   String telephone, byte[] passwordHash, Integer yearRegistry) {
+                   String telephone, byte[] passwordHash, String yearRegistry) {
         this.setUserType("STUDENT");
         this.setName(name);
         this.setInstitutionalEmail(institutionalEmail);
@@ -42,11 +42,11 @@ public class Student extends User implements Serializable {
         return serialVersionUID;
     }
 
-    public Integer getYearRegistry() {
+    public String getYearRegistry() {
         return yearRegistry;
     }
 
-    public void setYearRegistry(Integer yearRegistry) {
+    public void setYearRegistry(String yearRegistry) {
         this.yearRegistry = yearRegistry;
     }
 

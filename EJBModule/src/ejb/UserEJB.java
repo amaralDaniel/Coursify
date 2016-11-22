@@ -11,6 +11,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless(name="UserEJB")
@@ -21,6 +23,10 @@ public class UserEJB implements UserEJBRemote {
 
     @EJB
     AuthEJBRemote authEJB;
+    @EJB
+    MaterialEJBRemote materialEJB;
+    @EJB
+    CourseEJBRemote courseEJB;
 
     static final Logger logger = LogManager.getLogger(UserEJB.class);
     static final ObjectMapper mapper = new ObjectMapper();
@@ -225,6 +231,17 @@ public class UserEJB implements UserEJBRemote {
                 User user = entityManager.find(User.class, userId);
 
                 if(user != null) {
+                    Query query = entityManager.createQuery("FROM Material material WHERE material.author.userId = ?1");
+                    query.setParameter(1, userId);
+                    ArrayList<Material> materials = (ArrayList<Material>) query.getResultList();
+
+                    query = entityManager.createQuery("FROM Course course WHERE course.professor.userId = ?1");
+                    query.setParameter(1, userId);
+                    ArrayList<Course> courses = (ArrayList<Course>) query.getResultList();
+
+                    deleteMaterials(materials);
+                    deleteCourses(courses);
+
                     entityManager.remove(user);
                     return true;
                 }
@@ -233,5 +250,17 @@ public class UserEJB implements UserEJBRemote {
             }
         }
         return false;
+    }
+
+    private void deleteMaterials(ArrayList<Material> materials) {
+        for(Material material : materials) {
+            entityManager.remove(material);
+        }
+    }
+
+    private void deleteCourses(ArrayList<Course> courses) {
+        for(Course course : courses) {
+            entityManager.remove(course);
+        }
     }
 }
