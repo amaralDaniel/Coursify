@@ -166,6 +166,16 @@
             </div>
             </c:if>
         </div>
+        <form method="POST" action="upload" enctype="multipart/form-data" >
+            File:
+            <input type="file" name="file" id="file" /> <br/>
+            <input type="submit" value="Upload" name="upload" id="upload" />
+        </form>
+
+        <form method="GET" action="download" enctype="multipart/form-data" >
+            File:
+            <input type="submit" value="Download" name="download" id="download" />
+        </form>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
