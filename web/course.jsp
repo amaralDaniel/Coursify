@@ -88,8 +88,12 @@
                     <c:forEach items="${materials}" var="material">
                         <div class="panel-block">
                             <div class="columns">
+                                    <%--<form method="GET" action="download" enctype="multipart/form-data" >--%>
+                                    <%--File:--%>
+                                    <%--<input type="submit" value="Download" name="download" id="download" />--%>
+                                    <%--</form>--%>
                                 <div class="column">
-                                    <a class="panel-block is-active" href="material.jsp?id=${material.materialId}">
+                                    <a class="panel-block is-active" href="material?id=${material.materialId}&download=true" enctype="multipart/form-data">
                                         <span class="panel-icon">
                                           <i class="fa fa-download" style="color: #56b881;" aria-hidden="true"></i>
                                         </span>

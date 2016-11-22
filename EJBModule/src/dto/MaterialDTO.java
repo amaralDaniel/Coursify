@@ -11,6 +11,7 @@ public class MaterialDTO implements Serializable {
     private String materialId;
     private String filename;
     private String professorName;
+    private String type;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -38,5 +39,13 @@ public class MaterialDTO implements Serializable {
 
     public void setProfessorName(String professorName) {
         this.professorName = professorName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -14,7 +14,7 @@
             <article class="media">
                 <div class="media-content">
                     <div class="content">
-                        <form action="material?create=true" method="POST">
+                        <form action="material?create=true" method="POST" enctype="multipart/form-data">
                             <input style="display: none;" type="text" value="${course.courseId}" name="courseId">
                             <p class="control has-icon">
                                 <input class="input" type="text" placeholder="Filename" name="filename">
@@ -41,6 +41,14 @@
                                   </c:if>
                               </span>
                             </p>
+                            <input class="input" type="file" name="file" id="file" /> <br/>
+                            <%--<form method="POST" action="upload" enctype="multipart/form-data" >--%>
+                                <%--File:--%>
+                                <%--<input type="file" name="file" id="file" /> <br/>--%>
+                                <%--<input type="submit" value="Upload" name="upload" id="upload" />--%>
+                            <%--</form>--%>
+
+
                             <p class="control">
                                 <button class="button is-primary" type="submit">
                                     <span class="icon">

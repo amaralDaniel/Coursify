@@ -28,7 +28,7 @@ public class Upload extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         // Create path components to save the file
-        final String path = "/Users/danielamaral/Documents/Universidade/MEI_2ano_1sem/IS/15_16/Coursify/files";
+        final String path = "/Users/tomasfrancisco/Desktop";
         final Part filePart = request.getPart("file");
         final String fileName = getFileName(filePart);
 
@@ -52,8 +52,7 @@ public class Upload extends HttpServlet {
         } catch (FileNotFoundException fne) {
             logger.error("You either did not specify a file to upload or are "
                     + "trying to upload a file to a protected or nonexistent "
-                    + "location.");
-            //writer.println("<br/> ERROR: " + fne.getMessage());
+                    + "location. : " + fne.getMessage());
 
 
         } finally {

@@ -151,6 +151,7 @@ public class MaterialEJB implements MaterialEJBRemote{
         materialDTO.setMaterialId(material.getMaterialId());
         materialDTO.setFilename(material.getFilename());
         materialDTO.setProfessorName(material.getAuthor().getName());
+        materialDTO.setType(material.getType());
 
         return materialDTO;
     }

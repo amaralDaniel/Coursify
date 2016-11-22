@@ -24,9 +24,9 @@
                 <a class="nav-item is-active">
                     Home
                 </a>
-                <a class="nav-item modal-open" for="sign-up-modal">
-                    Create account
-                </a>
+                <%--<a class="nav-item modal-open" for="sign-up-modal">--%>
+                    <%--Create account--%>
+                <%--</a>--%>
                 <span class="nav-item">
                 <a class="button is-info is-inverted modal-open" for="login-modal">
                   <span class="icon">
