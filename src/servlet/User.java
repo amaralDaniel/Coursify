@@ -60,6 +60,7 @@ public class User extends HttpServlet {
         }
 
         String userType = req.getParameter("userType");
+
         String name = req.getParameter("name");
         String birthdate = req.getParameter("birthdate");
         String institutionalEmail = req.getParameter("institutional-email");
@@ -69,13 +70,16 @@ public class User extends HttpServlet {
         String category = null;
         String office = null;
         String internalPhone = null;
-        Double salary = null;
+        String salary = null;
+
+        logger.debug("USER TYPE: " + userType);
 
         if(userType.equals("PROFESSOR")) {
             category = req.getParameter("category");
             office = req.getParameter("office");
             internalPhone = req.getParameter("internal-phone");
-            salary = Double.valueOf(req.getParameter("salary"));
+            salary = req.getParameter("salary");
+            logger.debug("SALARY: " + salary);
         }
 
         Integer year = null;
@@ -109,7 +113,7 @@ public class User extends HttpServlet {
 
     private UserDTO createUserDTO(String userId, String userType, String name, String birthdate, String institutionalEmail,
                                   String alternativeEmail, String address, String phone, String category,
-                                  String office, String internalPhone, Double salary, Integer yearRegistry) {
+                                  String office, String internalPhone, String salary, Integer yearRegistry) {
         UserDTO user = new UserDTO();
 
         user.setUserId(userId);

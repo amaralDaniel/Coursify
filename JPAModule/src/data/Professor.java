@@ -13,7 +13,7 @@ public class Professor extends User implements Serializable {
     private String category;
     private String office;
     private String internalTelephone;
-    private Double salary;
+    private String salary;
 
     @OneToMany(mappedBy = "professor", cascade = CascadeType.REMOVE)
     private List<Course> courseList;
@@ -27,7 +27,7 @@ public class Professor extends User implements Serializable {
 
     public Professor(String name, String birthdate, String institutionalEmail,
                      String alternativeEmail, String address, String phone, String category,
-                     String office, String internalPhone, Double salary, byte[] password) {
+                     String office, String internalPhone, String salary, byte[] password) {
         this.setUserType("PROFESSOR");
         this.setName(name);
         this.setBirthdate(birthdate);
@@ -73,11 +73,11 @@ public class Professor extends User implements Serializable {
         this.internalTelephone = internalTelephone;
     }
 
-    public Double getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 

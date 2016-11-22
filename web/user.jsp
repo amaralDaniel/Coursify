@@ -62,19 +62,19 @@
                                     </c:if>
                                     <c:if test="${user.userType == 'PROFESSOR'}">
                                         <p class="control has-icon">
-                                            <input class="input" type="text" placeholder="Office" name="office" value="${user.yearRegistry}">
+                                            <input class="input" type="text" placeholder="Office" name="office" value="${user.office}">
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                         </p>
                                         <p class="control has-icon">
-                                            <input class="input" type="text" placeholder="Category" name="category" value="${user.yearRegistry}">
+                                            <input class="input" type="text" placeholder="Category" name="category" value="${user.category}">
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                         </p>
                                         <p class="control has-icon">
-                                            <input class="input" type="text" placeholder="Internal phone" name="internal-phone" value="${user.yearRegistry}">
+                                            <input class="input" type="text" placeholder="Internal phone" name="internal-phone" value="${user.internalTelephone}">
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                         </p>
                                         <p class="control has-icon">
-                                            <input class="input" type="text" placeholder="Salary" name="salary" value="${user.yearRegistry}">
+                                            <input class="input" type="text" placeholder="Salary" name="salary" value="${user.salary}">
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                         </p>
                                     </c:if>
@@ -110,3 +110,6 @@
     </div>
 </section>
 </c:if>
+<jsp:include page="footer.jsp"/>
+</body>
+</html>

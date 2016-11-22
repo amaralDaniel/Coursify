@@ -1,10 +1,9 @@
 package ejb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import data.Course;
-import data.Material;
-import data.Professor;
-import data.Student;
+import data.*;
+import dto.CourseDTO;
+import dto.UserDTO;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -53,7 +52,7 @@ public class CourseEJB implements CourseEJBRemote {
         Student studentToAdd;
 
         try{
-            courseToAddStudent = getCourse(courseId);
+            courseToAddStudent = getCourseEntity(courseId);
             studentToAdd = studentEJB.getStudent(studentId);
 
             courseToAddStudent.getStudentsList().add(studentToAdd);
@@ -72,7 +71,7 @@ public class CourseEJB implements CourseEJBRemote {
         logger.debug(">>>> CourseEJB: Reading course <<<<");
         Course courseToOutput;
         try {
-            courseToOutput= getCourse(courseId);
+            courseToOutput= getCourseEntity(courseId);
 
             logger.debug("AuthEJB: read material");
             return mapper.writeValueAsString(courseToOutput);
@@ -84,44 +83,66 @@ public class CourseEJB implements CourseEJBRemote {
 
     }
 
-    public boolean updateCourse(String materialObjectMapper) {
-        logger.debug(">>>> CourseEJB: Updating material <<<<");
+    public boolean updateCourse(CourseDTO course) {
+        logger.debug(">>>> CourseEJB: Updating course <<<<");
 
         try{
-            Material materialToUpdate = mapper.readValue(materialObjectMapper,Material.class);
-            entityManager.persist(materialToUpdate);
+            Course courseEntity = entityManager.find(Course.class, course.getCourseId());
+
+            courseEntity.setName(course.getName());
+            courseEntity.setDescription(course.getDescription());
+
             return true;
-        }catch (Exception ex){
-            logger.info("Something went wrong when trying to update a material. Exception: " + ex.getMessage());
+        }catch (Exception e) {
+            logger.error("CourseEJB: Error updating course: " + e.getMessage());
         }
 
         return false;
     }
 
-    public boolean deleteCourse(String materialId){
-        logger.debug(">>>> CourseEJB: Deleting material <<<<");
+    public boolean deleteCourse(String courseId) {
+        logger.debug(">>>> CourseEJB: Deleting course <<<<");
 
         try{
-            Course courseToRemove = getCourse(materialId);
+            Course courseToRemove = getCourseEntity(courseId);
             entityManager.remove(courseToRemove);
 
             logger.debug("Course found and removed");
             return true;
         }catch (Exception ex){
-            logger.info("Something went wrong when trying to delete a course. Exception: " + ex.getMessage());
+            logger.error("Something went wrong when trying to delete a course. Exception: " + ex.getMessage());
         }
         return false;
     }
 
-    public Course getCourse (String courseId){
+    public Course getCourseEntity(String courseId) {
 
         try {
             Course courseToAssign = entityManager.find(Course.class, courseId);
             return courseToAssign;
         }catch(Exception ex){
-            logger.info("CourseEJB: Error fetching course. Exception: " + ex.getMessage());
+            logger.error("CourseEJB: Error fetching course. Exception: " + ex.getMessage());
         }
         return null;
+    }
+
+    public CourseDTO getCourse(String courseId) {
+        try {
+            return getCourseDTOFromEntity(getCourseEntity(courseId));
+        } catch (Exception e) {
+            logger.error("CourseEJB: Error getting course: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private CourseDTO getCourseDTOFromEntity(Course course) throws Exception {
+        CourseDTO courseDTO = new CourseDTO();
+
+        courseDTO.setCourseId(course.getCourseId());
+        courseDTO.setName(course.getName());
+        courseDTO.setDescription(course.getDescription());
+
+        return courseDTO;
     }
 
     public String getCourses(String sessionToken) {

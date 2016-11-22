@@ -74,7 +74,7 @@
                             <span class="panel-icon">
                               <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
                             </span>
-                                ${course.name}
+                            ${course.name}
                         </a>
                     </c:forEach>
                 </nav>
@@ -176,5 +176,6 @@
 <jsp:include page="footer.jsp"/>
 <jsp:include page="create-student-modal.jsp"/>
 <jsp:include page="create-professor-modal.jsp"/>
+<jsp:include page="create-course-modal.jsp"/>
 </body>
 </html>

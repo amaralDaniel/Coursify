@@ -41,7 +41,7 @@ public class StudentEJB implements StudentEJBRemote {
         Course course;
 
         try{
-            course = courseEJB.getCourse(courseId);
+            course = courseEJB.getCourseEntity(courseId);
             studentsList = course.getStudentsList();
 
             Collections.sort(studentsList);

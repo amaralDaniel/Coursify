@@ -10,7 +10,7 @@
     <header class="nav">
         <div class="container">
             <div class="nav-left">
-                <a class="nav-item">
+                <a class="nav-item" href="/coursify">
                     <img src="assets/images/student.svg" alt="Logo">
                     <span style="padding-left: 5px;">Coursify</span>
                 </a>

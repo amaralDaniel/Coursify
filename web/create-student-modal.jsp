@@ -56,13 +56,7 @@
                                     <span class="icon">
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                                     </span>
-                                                    <span>Save</span>
-                                </button>
-                                <button class="button is-danger" type="submit">
-                                    <span class="icon">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </span>
-                                    <span>Delete student</span>
+                                    <span>Save</span>
                                 </button>
                             </p>
                         </form>

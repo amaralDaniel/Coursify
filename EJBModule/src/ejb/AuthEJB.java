@@ -131,7 +131,7 @@ public class AuthEJB implements AuthEJBRemote {
 
     public boolean createProfessorAccount(String name, String birthdate, String institutionalEmail,
                                           String alternativeEmail, String address, String phone, String category,
-                                          String office, String internalPhone, Double salary, String password) {
+                                          String office, String internalPhone, String salary, String password) {
         logger.info(">>>> Creating Professor Account <<<<");
         Professor prof = null;
 

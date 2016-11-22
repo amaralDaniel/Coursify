@@ -3,7 +3,6 @@ package dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDTO implements Serializable {
@@ -21,7 +20,7 @@ public class UserDTO implements Serializable {
     private String category;
     private String office;
     private String internalTelephone;
-    private Double salary;
+    private String salary;
     private Integer yearRegistry;
 
     public static long getSerialVersionUID() {
@@ -124,11 +123,11 @@ public class UserDTO implements Serializable {
         this.internalTelephone = internalTelephone;
     }
 
-    public Double getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 

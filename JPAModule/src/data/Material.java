@@ -13,8 +13,7 @@ public class Material {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String materialId;
     private String filename;
-    @Enumerated(EnumType.STRING)
-    private MaterialType type; //pdf, zip, etc
+    private String type;
     @JsonIgnore
     @ManyToOne
     private Course course;
@@ -24,7 +23,7 @@ public class Material {
 
     public Material() { }
 
-    public Material(String filename, User author, MaterialType type, Course course) {
+    public Material(String filename, User author, String type, Course course) {
         this.filename = filename;
         this.author = author;
         this.type = type;
@@ -51,11 +50,11 @@ public class Material {
         this.filename = filename;
     }
 
-    public MaterialType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(MaterialType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
