@@ -33,8 +33,10 @@ public class User extends HttpServlet {
         String sessionToken = Utils.getCookie(req, "sessionToken");
         String userId = req.getParameter("id");
         UserDTO user = userEJB.getUser(sessionToken, userId);
+        String loggedInUserId = userEJB.getUserId(sessionToken);
 
         req.setAttribute("user", user);
+        req.setAttribute("loggedInUserId", loggedInUserId);
 
         req.getRequestDispatcher("/user-response.jsp").forward(req, resp);
     }
@@ -47,30 +49,32 @@ public class User extends HttpServlet {
         String delete = req.getParameter("delete");
         String create = req.getParameter("create");
 
-        String userId = (String) req.getParameter("userId");
+        String userId = req.getParameter("userId");
+        String sessionToken = Utils.getCookie(req, "sessionToken");
 
         if(delete != null && delete.equals("true")) {
+            userEJB.deleteUser(sessionToken, userId);
+
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
 
-
-        String userType = (String) req.getParameter("userType");
-        String name = (String) req.getParameter("name");
-        String birthdate = (String) req.getParameter("birthdate");
-        String institutionalEmail = (String) req.getParameter("institutional-email");
-        String alternativeEmail = (String) req.getParameter("alternative-email");
-        String address = (String) req.getParameter("address");
-        String phone = (String) req.getParameter("phone");
+        String userType = req.getParameter("userType");
+        String name = req.getParameter("name");
+        String birthdate = req.getParameter("birthdate");
+        String institutionalEmail = req.getParameter("institutional-email");
+        String alternativeEmail = req.getParameter("alternative-email");
+        String address = req.getParameter("address");
+        String phone = req.getParameter("phone");
         String category = null;
         String office = null;
         String internalPhone = null;
         Double salary = null;
 
         if(userType.equals("PROFESSOR")) {
-            category = (String) req.getParameter("category");
-            office = (String) req.getParameter("office");
-            internalPhone = (String) req.getParameter("internal-phone");
+            category = req.getParameter("category");
+            office = req.getParameter("office");
+            internalPhone = req.getParameter("internal-phone");
             salary = Double.valueOf(req.getParameter("salary"));
         }
 
@@ -80,7 +84,7 @@ public class User extends HttpServlet {
         }
 
 
-        String password = (String) req.getParameter("password");
+        String password = req.getParameter("password");
 
         if(update != null && update.equals("true")) {
             userEJB.updateUser(createUserDTO(userId, userType, name, birthdate, institutionalEmail, alternativeEmail, address,

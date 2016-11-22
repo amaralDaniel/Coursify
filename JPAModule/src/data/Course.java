@@ -2,6 +2,7 @@ package data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +12,8 @@ import java.util.List;
 public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String courseId;
     private String name;
     private String description;
@@ -22,7 +24,7 @@ public class Course implements Serializable {
     @ManyToMany(mappedBy="coursesList")
     private List<Student> studentsList;
     @JsonIgnore
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy="course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Material> materialList;
 
     public Course() { }

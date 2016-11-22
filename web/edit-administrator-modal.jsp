@@ -6,11 +6,70 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div id="create-student-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <form action="signup" method="POST">
+                            <input style="display: none;" type="text" value="STUDENT" name="userType">
+                            <p class="control has-icon">
+                                <input class="input" type="text" placeholder="Name" name="name">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input flatpickr" type="text" placeholder="Birthdate" name="birthdate">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input" type="email" placeholder="Institutional E-Mail" name="institutional-email">
+                                <i class="fa fa-envelope"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input" type="email" placeholder="Alternative E-Mail" name="alternative-email">
+                                <i class="fa fa-envelope"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input" type="text" placeholder="Address" name="address">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input" type="text" placeholder="Phone" name="phone">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input" type="text" placeholder="Office" name="year">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input" type="password" placeholder="Password" name="password">
+                                <i class="fa fa-lock"></i>
+                            </p>
+                            <p class="control has-icon">
+                                <input class="input" type="password" placeholder="Confirm password">
+                                <i class="fa fa-lock"></i>
+                            </p>
+                            <p class="control">
+                                <button class="button is-primary" type="submit">
+                                    <span class="icon">
+                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    </span>
+                                    <span>Save</span>
+                                </button>
+                                <button class="button is-danger" type="submit">
+                                    <span class="icon">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </span>
+                                    <span>Delete student</span>
+                                </button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+    <button class="modal-close"></button>
+</div>

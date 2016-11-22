@@ -56,9 +56,27 @@
                                     </p>
                                     <c:if test="${user.userType == 'STUDENT'}">
                                     <p class="control has-icon">
-                                        <input class="input" type="text" placeholder="Office" name="year" value="${user.yearRegistry}">
+                                        <input class="input" type="text" placeholder="Year" name="year" value="${user.yearRegistry}">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                     </p>
+                                    </c:if>
+                                    <c:if test="${user.userType == 'PROFESSOR'}">
+                                        <p class="control has-icon">
+                                            <input class="input" type="text" placeholder="Office" name="office" value="${user.yearRegistry}">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </p>
+                                        <p class="control has-icon">
+                                            <input class="input" type="text" placeholder="Category" name="category" value="${user.yearRegistry}">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </p>
+                                        <p class="control has-icon">
+                                            <input class="input" type="text" placeholder="Internal phone" name="internal-phone" value="${user.yearRegistry}">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </p>
+                                        <p class="control has-icon">
+                                            <input class="input" type="text" placeholder="Salary" name="salary" value="${user.yearRegistry}">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </p>
                                     </c:if>
                                     <p class="control">
                                         <button class="button is-primary" type="submit">
@@ -69,7 +87,9 @@
                                         </button>
                                     </p>
                                 </form>
+                                <c:if test="${loggedInUserId != user.userId}">
                                 <form action="user?delete=true" method="POST">
+                                    <input style="display: none;" type="text" value="${user.userId}" name="userId">
                                     <button class="button is-danger" type="submit">
                                             <span class="icon">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
@@ -77,6 +97,7 @@
                                         <span>Delete</span>
                                     </button>
                                 </form>
+                                </c:if>
                             </div>
                         </div>
                     </article>

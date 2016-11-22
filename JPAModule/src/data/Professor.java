@@ -1,5 +1,6 @@
 package data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class Professor extends User implements Serializable {
     private String internalTelephone;
     private Double salary;
 
-    @OneToMany(mappedBy = "professor")
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.REMOVE)
     private List<Course> courseList;
 
     public Professor(String name, String institutionalEmail, byte[] passwordHash) {

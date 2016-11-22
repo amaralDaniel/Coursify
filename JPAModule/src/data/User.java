@@ -1,5 +1,7 @@
 package data;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -8,7 +10,8 @@ import java.sql.Date;
 public abstract class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String userId;
     private String userType;
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

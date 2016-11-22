@@ -34,6 +34,15 @@ public class UserEJB implements UserEJBRemote {
         return user.getUserType();
     }
 
+    public String getUserId(String sessionToken) {
+        logger.debug(">>>> Getting user type <<<<");
+
+        Token token = authEJB.getSessionToken(sessionToken);
+        User user = token.getUser();
+
+        return user.getUserId();
+    }
+
     public String getAllUsers(String sessionToken) {
         logger.info(">>>> Getting All Users <<<<");
         String userType = getUserType(sessionToken);
@@ -182,6 +191,7 @@ public class UserEJB implements UserEJBRemote {
     }
 
     public boolean updateUser(UserDTO user) {
+        logger.info(">>>> Updating User <<<<");
         String userType = user.getUserType();
         try {
             if (userType.equals("ADMINISTRATOR")) {
@@ -202,6 +212,25 @@ public class UserEJB implements UserEJBRemote {
             }
         } catch (Exception e) {
             logger.error("UserEJB: Error updating user " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean deleteUser(String sessionToken, String userId) {
+        logger.info(">>>> Deleting User <<<<");
+        String userType = getUserType(sessionToken);
+
+        if(userType.equals("ADMINISTRATOR")) {
+            try {
+                User user = entityManager.find(User.class, userId);
+
+                if(user != null) {
+                    entityManager.remove(user);
+                    return true;
+                }
+            } catch (Exception e) {
+                logger.error("UserEJB: Error deleting user: " + e.getMessage());
+            }
         }
         return false;
     }

@@ -14,7 +14,7 @@ public class Token implements Serializable {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String sessionToken;
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private User user;
 
     //TODO: Add expiration time
