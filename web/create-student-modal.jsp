@@ -13,7 +13,7 @@
             <article class="media">
                 <div class="media-content">
                     <div class="content">
-                        <form action="signup" method="POST">
+                        <form action="user?create=true" method="POST">
                             <input style="display: none;" type="text" value="STUDENT" name="userType">
                             <p class="control has-icon">
                                 <input class="input" type="text" placeholder="Name" name="name">
