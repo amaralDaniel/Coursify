@@ -12,3 +12,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/2.1.1/flatpickr.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/2.1.1/flatpickr.min.css">
 <script src="assets/js/main.js"></script>
+<meta charset="utf-8">

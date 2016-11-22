@@ -120,11 +120,6 @@
                     <p class="panel-heading">
                         Manage Users
                     </p>
-                    <p class="panel-tabs">
-                        <a class="is-active" href="#">All</a>
-                        <a href="#">Professors</a>
-                        <a href="#">Students</a>
-                    </p>
                     <c:forEach items="${users}" var="user">
                         <c:if test="${user.userType == 'ADMINISTRATOR'}">
                         <a class="panel-block is-active" href="user.jsp?id=${user.userId}">
@@ -162,7 +157,7 @@
                     <c:forEach items="${courses}" var="course">
                     <a class="panel-block is-active" href="course.jsp?id=${course.courseId}">
                         <span class="panel-icon">
-                          <i class="fa fa-briefcase" style="color: #ff9933;" aria-hidden="true"></i>
+                          <i class="fa fa-book" aria-hidden="true"></i>
                         </span>
                             ${course.name}
                     </a>

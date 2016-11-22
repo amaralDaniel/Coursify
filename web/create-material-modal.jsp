@@ -44,7 +44,7 @@
                             <p class="control">
                                 <button class="button is-primary" type="submit">
                                     <span class="icon">
-                                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                     </span>
                                     <span>Create Material</span>
                                 </button>

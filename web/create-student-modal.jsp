@@ -54,9 +54,9 @@
                             <p class="control">
                                 <button class="button is-primary" type="submit">
                                     <span class="icon">
-                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                     </span>
-                                    <span>Save</span>
+                                    <span>Create Student</span>
                                 </button>
                             </p>
                         </form>

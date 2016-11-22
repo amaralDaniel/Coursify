@@ -37,10 +37,10 @@
                             </p>
                             <p class="control">
                                 <button class="button is-primary" type="submit">
-                                    <span class="icon">
-                                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                   <span class="icon">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                     </span>
-                                    <span>Create professor</span>
+                                    <span>Create Course</span>
                                 </button>
                             </p>
                         </form>
