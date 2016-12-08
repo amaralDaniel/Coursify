@@ -24,7 +24,7 @@ public class Session implements Filter {
     private AuthEJBRemote authEJB;
 
     private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<String>(
-            Arrays.asList("", "/", "/login", "/logout", "/signup", "/register")));
+            Arrays.asList("", "/", "/login", "/logout", "/signup", "/register", "/rest/courses", "/rest/students")));
 
     private static final String ASSETS_PATH = "/assets";
 

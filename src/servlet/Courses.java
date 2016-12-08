@@ -37,7 +37,7 @@ public class Courses extends HttpServlet {
         String userType = userEJB.getUserType(sessionToken);
         req.setAttribute("userType", userType);
 
-        ArrayList<CourseDTO> courses = courseEJB.getCourses(sessionToken);
+        ArrayList<CourseDTO> courses = courseEJB.getCourses();
         req.setAttribute("courses", courses);
 
         logger.debug("COURSES: " + courses.toString());

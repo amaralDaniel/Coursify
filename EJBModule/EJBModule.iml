@@ -17,14 +17,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="JBoss 10.2.0.Final" level="application_server_libraries" />
-    <orderEntry type="library" name="ejb-3.2" level="project" />
     <orderEntry type="module" module-name="JPAModule" />
-    <orderEntry type="library" name="JPA 2.0-2.0" level="project" />
-    <orderEntry type="library" name="apache-log4j:log4j:1.2.15" level="project" />
     <orderEntry type="module" module-name="JPAModule" />
     <orderEntry type="library" name="org.hibernate:hibernate-core:5.2.4.Final" level="project" />
     <orderEntry type="library" name="log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="com.fasterxml.jackson.core:jackson-databind:2.8.5" level="project" />
-    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

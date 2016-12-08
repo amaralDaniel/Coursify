@@ -164,7 +164,7 @@ public class CourseEJB implements CourseEJBRemote {
         return courseDTO;
     }
 
-    public ArrayList<CourseDTO> getCourses(String sessionToken) {
+    public ArrayList<CourseDTO> getCourses() {
         //TODO: Limit access to user through session token
         try {
             Query query = entityManager.createQuery("SELECT courses FROM Course courses");

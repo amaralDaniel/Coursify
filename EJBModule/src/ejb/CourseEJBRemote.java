@@ -13,7 +13,7 @@ public interface CourseEJBRemote {
     String readCourse(String courseId);
     boolean updateCourse(CourseDTO course);
     boolean deleteCourse(String courseId);
-    ArrayList<CourseDTO> getCourses(String sessionToken);
+    ArrayList<CourseDTO> getCourses();
     CourseDTO getCourse(String courseId);
     Course getCourseEntity(String courseId);
 }

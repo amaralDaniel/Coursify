@@ -3,6 +3,7 @@ package ejb;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.Course;
 import data.Student;
+import dto.CourseDTO;
 import dto.UserDTO;
 import org.apache.log4j.Logger;
 
@@ -10,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,7 +37,36 @@ public class StudentEJB implements StudentEJBRemote {
         return null;
     }
 
+    public ArrayList<UserDTO> getStudents() {
+        try {
+            Query query = entityManager.createQuery("SELECT students FROM Student students");
+            ArrayList<Student> students = (ArrayList<Student>) query.getResultList();
 
+
+            return getListOfStudentDTO(students);
+        } catch (Exception e) {
+            logger.error("CourseEJB: Error getting courses: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private ArrayList<UserDTO> getListOfStudentDTO(ArrayList<Student> students) {
+        ArrayList<UserDTO> studentsDTO = new ArrayList<UserDTO>();
+        for(Student student : students) {
+            studentsDTO.add(getStudentDTOFromEntity(student));
+        }
+        return studentsDTO;
+    }
+
+    private UserDTO getStudentDTOFromEntity(Student student) {
+        UserDTO studentDTO = new UserDTO();
+
+        studentDTO.setUserId(student.getUserId());
+        studentDTO.setName(student.getName());
+        studentDTO.setInstitutionalEmail(student.getInstitutionalEmail());
+
+        return studentDTO;
+    }
 
     public String listStudentsAlphabetically(String courseId){
         List studentsList;
