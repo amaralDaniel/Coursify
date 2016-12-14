@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
-@WebServlet("/rest/students")
-public class RESTStudents extends HttpServlet {
+@WebServlet("/rest/materials")
+public class RESTMaterials extends HttpServlet {
 
     protected JSONArray generatedData = null;
     protected int maxRequests = 2;
@@ -29,11 +29,11 @@ public class RESTStudents extends HttpServlet {
 
         if(generatedData != null && currentRequests < maxRequests) {
             currentRequests++;
-            out.print(generatedData.toString());
+            out.print(org.json.XML.toString(generatedData));
         } else {
             currentRequests = 0;
             generatedData = generateResult();
-            out.print(generatedData.toString());
+            out.print(org.json.XML.toString(generatedData));
         }
     }
 
@@ -74,12 +74,12 @@ public class RESTStudents extends HttpServlet {
 
         jsonObjectCourse.put("name", "course_" + i);
         jsonObjectCourse.put("description", "description");
-        jsonObjectCourse.put("students", generateStudents());
+        jsonObjectCourse.put("materials", generateMaterials());
 
         return jsonObjectCourse;
     }
 
-    protected JSONArray generateStudents() {
+    protected JSONArray generateMaterials() {
         JSONObject jsonObjectMaterials;
         JSONArray jsonArrayMaterials = new JSONArray();
         int max = 15;
@@ -87,15 +87,12 @@ public class RESTStudents extends HttpServlet {
         Random rand = new Random();
         DataFactory df = new DataFactory();
 
-
         //int randomNum = rand.nextInt((max - min) + 1) + min;
         for(int i = 0; i < 2; i++) {
             jsonObjectMaterials = new JSONObject();
 
-            jsonObjectMaterials.put("name", "student_" + i);
-            jsonObjectMaterials.put("email", df.getEmailAddress());
-            jsonObjectMaterials.put("birthdate", df.getBirthDate());
-            jsonObjectMaterials.put("phone", df.getNumberText(9));
+            jsonObjectMaterials.put("name", "material_" + i);
+            jsonObjectMaterials.put("date", df.getBirthDate());
             jsonArrayMaterials.put(jsonObjectMaterials);
         }
 
