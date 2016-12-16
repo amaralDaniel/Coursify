@@ -40,6 +40,12 @@ public class Session implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
+        // Enabling CORS
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        res.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+        res.setHeader("Access-Control-Expose-Headers", "x-requested-with");
+
         String path = req.getRequestURI().substring(req.getContextPath().length()).replaceAll("[/]+$", "");
         logger.debug(path);
 
