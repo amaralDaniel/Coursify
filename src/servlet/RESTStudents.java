@@ -3,6 +3,7 @@ package servlet;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.XML;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +17,8 @@ import java.util.Random;
 @WebServlet("/rest/students")
 public class RESTStudents extends HttpServlet {
 
-    protected JSONArray generatedData = null;
-    protected int maxRequests = 2;
+    protected JSONObject generatedData = null;
+    protected int maxRequests = 0;
     protected int currentRequests = 0;
 
     @Override
@@ -29,7 +30,9 @@ public class RESTStudents extends HttpServlet {
 
         if(generatedData != null && currentRequests < maxRequests) {
             currentRequests++;
-            out.print(generatedData.toString());
+            out.print(XML.toString(generatedData));
+        } else if(generatedData != null) {
+            out.print(XML.toString(generatedData));
         } else {
             currentRequests = 0;
             generatedData = generateResult();
@@ -37,68 +40,51 @@ public class RESTStudents extends HttpServlet {
         }
     }
 
-    protected JSONArray generateResult() {
-        int max = 15;
-        int min = 1;
-        Random rand = new Random();
+    protected JSONObject generateResult() {
+        JSONObject result = new JSONObject();
 
-        JSONArray result = new JSONArray();
 
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        for(int i = 0; i < 2; i++) {
-            result.put(generateCourse(i));
-        }
+        result.put("result", generateStudents("mail@tomasfrancisco.com"));
+
 
         return result;
     }
-//
-//    protected JSONObject generateCourse() {
-//
-//        //Fairy fairy = Fairy.create();
-//
-//        JSONObject jsonObjectCourse = new JSONObject();
-//
-//        //Company course = fairy.company();
-//        DataFactory df = new DataFactory();
-//
-//        jsonObjectCourse.put("name", df.getBusinessName());
-//        jsonObjectCourse.put("description", df.getRandomWord() + " " + df.getRandomWord() + " " + df.getRandomWord() + " " + df.getRandomWord() + " " + df.getRandomWord());
-//        jsonObjectCourse.put("materials", generateMaterials());
-//
-//        return jsonObjectCourse;
-//    }
 
     protected JSONObject generateCourse(int i) {
         JSONObject jsonObjectCourse = new JSONObject();
 
-
+        jsonObjectCourse.put("id", i);
         jsonObjectCourse.put("name", "course_" + i);
         jsonObjectCourse.put("description", "description");
-        jsonObjectCourse.put("students", generateStudents());
 
         return jsonObjectCourse;
     }
 
-    protected JSONArray generateStudents() {
-        JSONObject jsonObjectMaterials;
-        JSONArray jsonArrayMaterials = new JSONArray();
-        int max = 15;
-        int min = 1;
-        Random rand = new Random();
+    protected JSONArray generateStudents(String email) {
+        JSONObject jsonObjectStudents;
+        JSONArray jsonArrayStudents = new JSONArray();
+
+        int numCourses = 3;
         DataFactory df = new DataFactory();
 
 
-        //int randomNum = rand.nextInt((max - min) + 1) + min;
         for(int i = 0; i < 2; i++) {
-            jsonObjectMaterials = new JSONObject();
+            jsonObjectStudents = new JSONObject();
 
-            jsonObjectMaterials.put("name", "student_" + i);
-            jsonObjectMaterials.put("email", df.getEmailAddress());
-            jsonObjectMaterials.put("birthdate", df.getBirthDate());
-            jsonObjectMaterials.put("phone", df.getNumberText(9));
-            jsonArrayMaterials.put(jsonObjectMaterials);
+            jsonObjectStudents.put("name", "student_" + i);
+            jsonObjectStudents.put("email", email != null ? email : df.getEmailAddress());
+            jsonObjectStudents.put("birthdate", df.getBirthDate());
+            jsonObjectStudents.put("phone", df.getNumberText(9));
+
+            JSONArray jsonArrayCourses = new JSONArray();
+            for(int j = 0; j < numCourses; j++) {
+                jsonArrayCourses.put(generateCourse(j));
+            }
+
+            jsonObjectStudents.put("courses", jsonArrayCourses);
+            jsonArrayStudents.put(jsonObjectStudents);
         }
 
-        return jsonArrayMaterials;
+        return jsonArrayStudents;
     }
 }
