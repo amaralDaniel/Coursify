@@ -30,9 +30,9 @@ public class RESTStudents extends HttpServlet {
 
         if(generatedData != null && currentRequests < maxRequests) {
             currentRequests++;
-            out.print(XML.toString(generatedData));
+            out.print(generatedData.toString());
         } else if(generatedData != null) {
-            out.print(XML.toString(generatedData));
+            out.print(generatedData.toString());
         } else {
             currentRequests = 0;
             generatedData = generateResult();
@@ -44,7 +44,7 @@ public class RESTStudents extends HttpServlet {
         JSONObject result = new JSONObject();
 
 
-        result.put("result", generateStudents("mail@tomasfrancisco.com"));
+        result.put("result", generateStudents("teste@teste.com"));
 
 
         return result;
