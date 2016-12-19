@@ -22,7 +22,7 @@ public class RESTMaterials extends HttpServlet {
     private final Logger logger = Logger.getLogger(RESTMaterials.class);
 
     protected JSONObject generatedData = null;
-    protected int maxRequests = 2;
+    protected int maxRequests = 0;
     protected int currentRequests = 0;
 
     @Override
@@ -35,6 +35,8 @@ public class RESTMaterials extends HttpServlet {
         if(generatedData != null && currentRequests < maxRequests) {
             currentRequests++;
             logger.info(XML.toString(generatedData));
+            out.print(XML.toString(generatedData));
+        } else if(generatedData != null) {
             out.print(XML.toString(generatedData));
         } else {
             currentRequests = 0;
@@ -60,7 +62,7 @@ public class RESTMaterials extends HttpServlet {
 
         JSONObject nested = new JSONObject();
         JSONObject resultObj = new JSONObject();
-        nested.put("wrapper", result);
+        nested.put("course", result);
         resultObj.put("result", nested);
         logger.info(resultObj.toString());
         return resultObj;
@@ -84,10 +86,14 @@ public class RESTMaterials extends HttpServlet {
 
     protected JSONObject generateCourse(int i) {
         JSONObject jsonObjectCourse = new JSONObject();
+        JSONObject jsonObjectMaterials = new JSONObject();
 
 
+        jsonObjectCourse.put("id", i);
         jsonObjectCourse.put("name", "course_" + i);
         jsonObjectCourse.put("description", "description");
+
+//        jsonObjectMaterials.put("material", generateMaterials());
         jsonObjectCourse.put("materials", generateMaterials());
 
         return jsonObjectCourse;
@@ -105,6 +111,7 @@ public class RESTMaterials extends HttpServlet {
         for(int i = 0; i < 2; i++) {
             jsonObjectMaterials = new JSONObject();
 
+            jsonObjectMaterials.put("id", i);
             jsonObjectMaterials.put("name", "material_" + i);
             jsonObjectMaterials.put("date", df.getBirthDate());
             jsonArrayMaterials.put(jsonObjectMaterials);
